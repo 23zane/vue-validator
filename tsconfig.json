@@ -1,0 +1,26 @@
+{
+	"compilerOptions": {
+		"target": "es6",
+		"strict": true,
+		"module": "es2020",
+		"lib": [
+			"es2020",
+			"dom",
+			"dom.iterable"
+		],
+		"moduleResolution": "node",
+		"experimentalDecorators": true,
+		"noImplicitAny": true,
+		"allowJs": false,
+		"outDir": "lib",
+		"typeRoots": [
+			"node_modules/@types",
+		],
+		"allowSyntheticDefaultImports": true
+	},
+	"include": ["src/**/*.ts"],
+	"exclude": [
+		"node_modules",
+		"**/__tests__/*"
+	]
+}
