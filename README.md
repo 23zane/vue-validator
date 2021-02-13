@@ -2,8 +2,8 @@
 Vue validator based on [@vue/composition-api](https://github.com/vuejs/composition-api) (with [vue-demi](https://github.com/vueuse/vue-demi), so you can use it with both Vue 2 and 3), [@vuelidate/validators](https://vuelidate-next.netlify.app/) and [@vuelidate/core](https://vuelidate-next.netlify.app/).
 
 This package is built to use validation on a generic reactive object,which displays inputs related to its type.
-# Usage
-##This package has one main function: **useValidation**
+## Usage
+This package has one main function: **useValidation**
 ```
 export const useValidation: <FormDataType, FormDataValuesType extends unknown, InputTypes extends GenericInput = GenericInput>(
 	inputs: Ref<InputType<FormDataType, InputTypes>> | InputType<FormDataType, InputTypes>,
@@ -21,7 +21,7 @@ export const useValidation: <FormDataType, FormDataValuesType extends unknown, I
 	isInputTouched: (key: keyof FormDataType) => boolean
 };
 ```
-### It receives a record of generic inputs with these properties: 
+It receives a record of generic inputs with these properties: 
 ```{
 export type GenericInput = {
 	mandatory: boolean;
@@ -30,8 +30,7 @@ export type GenericInput = {
 	exclude_dirty?: boolean; //To avoid dirty check
 }
 ```
-,
-### a record of FormDataType, and other attributes: 
+a record of FormDataType, and other attributes: 
 
 **checkDirty: whether to set invalid the form values until they aren't modified - see [The dirty state](https://vuelidate-next.netlify.app/guide.html#the-dirty-state)**
 
@@ -98,5 +97,51 @@ export type GenericInput = {
 
 **iban** Input value must be a valid european IBAN;
 
+###Example
 
+```
+type FormData = {
+    name: string;
+    surname: string;
+    email: string;
+    privacy: boolean;
+}
 
+const inputs: Record<keyof FormData, GenericInput> = {
+    name: {
+        name: 'name',
+        mandatory: false,
+        rules: ['requiredIf:surname,'],
+    },
+    surname: {
+        name: 'surname',
+        mandatory: false,
+        rules: ['requiredIf:name,'],
+    },
+    email: {
+        name: 'email',
+        mandatory: true,
+        rules: []
+    },
+    privacy: {
+        name: 'privacy',
+        mandatory: true,
+        rules: ['boolean']
+    }
+};
+const formData = reactive<FormData>({
+    name: "test",
+    surname: "",
+    email: "",
+    privacy: false
+});
+
+const {v, isInvalid, isInputInvalid, isInputTouched} = useValidation<FormData, string | boolean>(inputs, formData, false);
+
+return {
+    v,
+    isInvalid,
+    isInputInvalid,
+    isInputTouched
+}
+```
