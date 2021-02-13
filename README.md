@@ -47,6 +47,17 @@ a record of FormDataType, and other attributes:
     isInputTouched(key): Function that returns if an input is touched, aka the form attribute has changed.    
 }
 ```
+
+### The library is **NOT** touching the attributes, if you want to apply automatic touch on change, you can use onChange callback like below:
+```
+const {v, isInvalid, isInputInvalid, isInputTouched} = useValidation<FormData, string | boolean>(inputs, formData, false, undefined, {
+    onInputChange(key){
+        v.value[key].$touch();
+    }
+});
+```
+
+
 ### List of rules applicable:
 
 **requiredIf:name,value** Sets input required when **$name** has **$value** value;
