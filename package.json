@@ -1,15 +1,15 @@
 {
-  "name": "vue-validator",
-  "version": "1.0.0",
+  "name": "@23zane/vue-validator",
+  "version": "1.0.1",
   "description": "Validator based on Vuelidate",
-  "main": "index.js",
+  "main": "lib/validation.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "tsc",
     "format": "prettier --write \"src/**/*.ts\" \"src/**/*.js\"",
     "lint": "tslint -p tsconfig.json"
   },
-  "files": ["lib/**/*"],
+  "files": ["lib/**/*", "index.d.ts"],
   "repository": {
     "type": "git",
     "url": "git+https://github.com/23zane/vue-validator.git"
@@ -23,7 +23,6 @@
     "typescript": "^4.1.5"
   },
   "dependencies": {
-    "@types/moment": "^2.13.0",
     "@types/vuelidate": "^0.7.13",
     "@vue/composition-api": "^1.0.0-rc.1",
     "@vuelidate/core": "^2.0.0-alpha.8",

@@ -2,34 +2,10 @@ import {ValidationRule} from '@vuelidate/core';
 import {isRef, Ref, defineComponent} from '@vue/composition-api';
 import {email, maxLength, minLength, not, required, sameAs} from 'vuelidate/lib/validators';
 import {required as requiredFunction} from '@vuelidate/validators';
-import {GenericInput, InputType} from './types';
+import {GenericInput, InputType, RuleNames} from './types';
 import moment from 'moment/moment';
 
-export type RuleNames =
-	'required'
-	| 'email'
-	| 'password'
-	| 'telephone'
-	| 'accepted'
-	| 'char'
-	| 'uppercase'
-	| 'lowercase'
-	| 'number'
-	| 'full_number'
-	| 'currency'
-	| 'maxLength'
-	| 'minLength'
-	| 'iban'
-	| 'stamp_number'
-	| 'tax_code'
-	| 'vat_code'
-	| 'company_tax_code'
-	| 'month_year'
-	| 'datetime'
-	| 'date'
-	| string;
-
-export function _getRule<K extends Record<string, any>, I extends GenericInput = GenericInput>(
+export function getRule<K extends Record<string, any>, I extends GenericInput = GenericInput>(
 	rule: RuleNames,
 	formData?:
 		| {
@@ -642,7 +618,7 @@ export default function useValidationRules<E, K, I extends GenericInput = Generi
 			};
 		}
 		input.rules.forEach((rule: string) => {
-			const ruleObject = _getRule(rule, formData) as
+			const ruleObject = getRule(rule, formData) as
 				| {
 				key: string;
 				func: ValidationRule;

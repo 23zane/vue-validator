@@ -30,10 +30,9 @@ export default function useValidation<E, K extends unknown, I extends GenericInp
 	const v = useVuelidate<
 		//@ts-ignore
 		ValidationArgs,
-		{
-			[key in keyof E]: K;
-		}
+		Record<keyof E, K>
 	>(rules, formData, registerAs);
+	v.value
 
 	const isInvalid = computed<boolean>(() => {
 		const keys: (keyof E)[] = Object.keys(v.value).filter((key) => {
