@@ -1,6 +1,6 @@
 {
   "name": "@23zane/vue-validator",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Validator based on Vuelidate",
   "main": "lib/validation.js",
   "scripts": {
@@ -9,7 +9,7 @@
     "format": "prettier --write \"src/**/*.ts\" \"src/**/*.js\"",
     "lint": "tslint -p tsconfig.json"
   },
-  "files": ["lib/**/*", "index.d.ts"],
+  "files": ["lib/**/*", "index.d.ts", "src/types.ts"],
   "repository": {
     "type": "git",
     "url": "git+https://github.com/23zane/vue-validator.git"
