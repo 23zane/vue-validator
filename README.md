@@ -97,7 +97,7 @@ a record of FormDataType, and other attributes:
 
 **iban** Input value must be a valid european IBAN;
 
-###Example
+### Example
 
 ```
 type FormData = {
