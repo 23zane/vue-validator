@@ -1,14 +1,18 @@
 import {Ref} from "vue-demi";
-import {Validation, ValidationRule} from "@vuelidate/core";
-import {InputType} from "./src/types";
+import {Validation, ValidationRule, ValidationRuleWithoutParams, ValidationRuleWithParams} from "@vuelidate/core";
+import {GenericInput, InputType, RuleNames} from "./src/types";
 
 export * from "./src/types";
-import {GenericInput} from "./src/types";
-import {RuleNames} from "./src/types";
 
 export type ValidationArgs<E extends Record<string | number, any> = Record<string | number, any>> = {
 	[key in keyof E]: ValidationRule | ValidationArgs<E>
 }
+type ValidationRuleParams =
+	ValidationRuleWithParams<{ equalTo: string; otherName: string; }>
+	| ValidationRuleWithParams<{ max: number }>
+	| ValidationRuleWithParams<{ min: number }>
+	| ValidationRuleWithParams<{ length: number }>
+	;
 export const getRule: <K extends Record<string, any>, I extends GenericInput = GenericInput>(
 	rule: RuleNames,
 	formData?:
@@ -18,34 +22,34 @@ export const getRule: <K extends Record<string, any>, I extends GenericInput = G
 		| Ref<{
 		[key in keyof K]: any;
 	}>,
-) => { key: string; func: ((value: string) => boolean) | (() => ValidationRule) } | undefined;
+) => {
+	key: string; func: ((value: string) => boolean) | (() => ValidationRule)
+		| ValidationRuleParams
+		| ValidationRuleWithParams | ValidationRuleWithoutParams
+} | undefined;
 
-export const useValidationRules: <E, K extends unknown, I extends GenericInput = GenericInput>(
-	inputs: Ref<InputType<E, I>> | InputType<E, I>,
+export const useValidationRules: <FormDataType, FormDataValuesType extends unknown, InputTypes extends GenericInput = GenericInput>(
+	inputs: Ref<InputType<FormDataType, InputTypes>> | InputType<FormDataType, InputTypes>,
 	formData:
-		| {
-		[key in keyof E]: K;
-	}
-		| Ref<{
-		[key in keyof E]: K;
-	}>,
-) => { [key in keyof E]?: { [p: string]: ValidationRule<unknown> } | undefined };
+		| Record<keyof FormDataType, FormDataValuesType>
+		| Ref<Record<keyof FormDataType, FormDataValuesType>>,
+) => Record<keyof FormDataType, Record<string, ValidationRule<unknown>> | undefined>;
 
 
-export const useValidation: <E, K extends unknown, I extends GenericInput = GenericInput>(
-	inputs: Ref<InputType<E, I>> | InputType<E, I>,
-	formData: Record<keyof E, K> | Ref<Record<keyof E, K>>,
+export const useValidation: <FormDataType, FormDataValuesType extends unknown, InputTypes extends GenericInput = GenericInput>(
+	inputs: Ref<InputType<FormDataType, InputTypes>> | InputType<FormDataType, InputTypes>,
+	formData: Record<keyof FormDataType, FormDataValuesType> | Ref<Record<keyof FormDataType, FormDataValuesType>>,
 	checkDirty?: boolean,
 	registerAs?: string,
 	callbacks?: Partial<{
-		onInputChange: <K extends keyof E = keyof E>(key: K, value: E[K]) => void;
-		onInputInvalid: <K extends keyof E = keyof E>(key: K) => void;
-		onInputValid: <K extends keyof E = keyof E>(key: K) => void;
+		onInputChange: <K extends keyof FormDataType = keyof FormDataType>(key: K, value: FormDataType[K]) => void;
+		onInputInvalid: <K extends keyof FormDataType = keyof FormDataType>(key: K) => void;
+		onInputValid: <K extends keyof FormDataType = keyof FormDataType>(key: K) => void;
 	}>) => {
-	v: Ref<Validation<ValidationArgs<E>, Record<keyof E, K>>>,
+	v: Ref<Validation<ValidationArgs<FormDataType>, Record<keyof FormDataType, FormDataValuesType>>>,
 	isInvalid: boolean,
-	isInputInvalid: (key: keyof E, excludeDirty?: boolean) => boolean,
-	isInputTouched: (key: keyof E) => boolean
+	isInputInvalid: (key: keyof FormDataType, excludeDirty?: boolean) => boolean,
+	isInputTouched: (key: keyof FormDataType) => boolean
 };
 
 export default useValidation;

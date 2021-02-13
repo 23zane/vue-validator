@@ -1,9 +1,16 @@
-import {ValidationRule} from '@vuelidate/core';
-import {isRef, Ref, defineComponent} from '@vue/composition-api';
-import {email, maxLength, minLength, not, required, sameAs} from 'vuelidate/lib/validators';
-import {required as requiredFunction} from '@vuelidate/validators';
+import {ValidationRule, ValidationRuleWithoutParams, ValidationRuleWithParams} from '@vuelidate/core';
+import {isRef, Ref} from '@vue/composition-api';
+import {email, maxLength, minLength, not, required, required as requiredFunction, sameAs} from '@vuelidate/validators';
 import {GenericInput, InputType, RuleNames} from './types';
 import moment from 'moment/moment';
+
+type ValidationRuleParams =
+	ValidationRuleWithParams<{ equalTo: string; otherName: string; }>
+	| ValidationRuleWithParams<{ max: number }>
+	| ValidationRuleWithParams<{ min: number }>
+	| ValidationRuleWithParams<{ length: number }>
+	;
+
 
 export function getRule<K extends Record<string, any>, I extends GenericInput = GenericInput>(
 	rule: RuleNames,
@@ -14,7 +21,11 @@ export function getRule<K extends Record<string, any>, I extends GenericInput = 
 		| Ref<{
 		[key in keyof K]: any;
 	}>,
-): { key: string; func: ((value: string) => boolean) | (() => ValidationRule) } | undefined {
+): {
+	key: string; func: ((value: string) => boolean) | (() => ValidationRule)
+		| ValidationRuleParams
+		| ValidationRuleWithParams | ValidationRuleWithoutParams
+} | undefined {
 	if (rule.toLowerCase().localeCompare('required') === 0) {
 		return {
 			key: 'required',
@@ -132,13 +143,13 @@ export function getRule<K extends Record<string, any>, I extends GenericInput = 
 		if (typeof formData !== 'undefined' && formData.hasOwnProperty(name)) {
 			return {
 				key: ruleName,
-				func: sameAs(() => {
+				func: (value: string) => {
 					const data: {
 						[key in keyof K]: any;
 					} = isRef(formData) ? {...formData!.value} : {...formData};
 
-					return data[name as keyof K];
-				}),
+					return data[name as keyof K] === value;
+				}
 			};
 		}
 		return {
@@ -568,7 +579,8 @@ export function getRule<K extends Record<string, any>, I extends GenericInput = 
 		};
 	}
 
-	if (rule.localeCompare('App\\Rules\\CompanyTaxCode') === 0 || rule.toLowerCase().localeCompare('company_tax_code') === 0) {
+	if (rule.localeCompare('App\\Rules\\CompanyTaxCode') === 0 || rule.toLowerCase().localeCompare(
+		'company_tax_code') === 0) {
 		return {
 			key: 'regex',
 			func: (value: string) => {

@@ -5,9 +5,7 @@ export type GenericInput = {
 	rules: string[];
 };
 
-export type InputType<E, I extends GenericInput = GenericInput> = {
-	[key in keyof E]: I;
-};
+export type InputType<E, I extends GenericInput = GenericInput> = Record<keyof E, I>;
 
 export type RuleNames =
 	'required'
