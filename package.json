@@ -3,6 +3,14 @@
   "version": "1.0.4",
   "description": "Validator based on Vuelidate",
   "main": "lib/validation.js",
+  "keywords": [
+    "vue",
+    "vuelidate",
+    "types",
+    "typescript",
+    "typing",
+    "validation"
+  ],
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "tsc",
