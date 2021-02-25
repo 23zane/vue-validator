@@ -47,7 +47,7 @@ export const useValidation: <FormDataType, FormDataValuesType extends unknown, I
 		onInputValid: <K extends keyof FormDataType = keyof FormDataType>(key: K) => void;
 	}>) => {
 	v: Ref<Validation<ValidationArgs<FormDataType>, Record<keyof FormDataType, FormDataValuesType>>>,
-	isInvalid: boolean,
+	isInvalid: Ref<boolean>,
 	isInputInvalid: (key: keyof FormDataType, excludeDirty?: boolean) => boolean,
 	isInputTouched: (key: keyof FormDataType) => boolean
 };
