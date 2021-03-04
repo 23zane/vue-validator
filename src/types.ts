@@ -2,7 +2,7 @@ export type GenericInput = {
 	mandatory: boolean;
 	name: string;
 	exclude_dirty?: boolean; // Per evitare il controllo dirty
-	rules: (string | {key: string, func: (value: string | string[] | number[]) => boolean})[];
+	rules: (string | {key: string, func: <K extends string | string[] | number[] | boolean = string | string[] | number[] | boolean>(value: K) => boolean})[];
 };
 
 export type InputType<E, I extends GenericInput = GenericInput> = Record<keyof E, I>;
