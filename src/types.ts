@@ -1,8 +1,8 @@
 export type GenericInput = {
 	mandatory: boolean;
 	name: string;
-	exclude_dirty?: boolean; //Per evitare il controllo dirty
-	rules: string[];
+	exclude_dirty?: boolean; // Per evitare il controllo dirty
+	rules: (string | {key: string, func: () => boolean})[];
 };
 
 export type InputType<E, I extends GenericInput = GenericInput> = Record<keyof E, I>;

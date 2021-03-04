@@ -26,15 +26,15 @@ export default function useValidation<E, K extends unknown, I extends GenericInp
 		[key in keyof E]: ValidationRule<K> | ValidationArgs;
 	};
 
-	//@ts-ignore
+	// @ts-ignore
 	const v = useVuelidate<
-		//@ts-ignore
+		// @ts-ignore
 		ValidationArgs,
 		Record<keyof E, K>
 	>(rules, formData, registerAs);
-	v.value
 
 	const isInvalid = computed<boolean>(() => {
+		// tslint:disable-next-line:no-shadowed-variable
 		const keys: (keyof E)[] = Object.keys(v.value).filter((key) => {
 			return key.substr(0, 1) !== '$' && key.substr(0, 1) !== '_';
 		}) as (keyof E)[];
@@ -42,7 +42,7 @@ export default function useValidation<E, K extends unknown, I extends GenericInp
 		return keys.some((key) => {
 			const validationObject: Validation = v.value[key] as Validation;
 			const inputValues: Record<keyof E, I> | undefined = isRef(inputs) ? inputs.value : inputs;
-			const input: I | undefined = typeof inputValues != 'undefined' ? inputValues[key] : undefined;
+			const input: I | undefined = typeof inputValues !== 'undefined' ? inputValues[key] : undefined;
 
 			let dirtyCheck = checkDirty;
 			if (dirtyCheck && input && input.exclude_dirty) {
@@ -60,7 +60,7 @@ export default function useValidation<E, K extends unknown, I extends GenericInp
 	const isInputInvalid = (key: keyof E, excludeDirty?: boolean) => {
 		let dirtyCheck = checkDirty;
 		const inputValues: Record<keyof E, I> | undefined = isRef(inputs) ? inputs.value : inputs;
-		const input: I | undefined = typeof inputValues != 'undefined' ? inputValues[key] : undefined;
+		const input: I | undefined = typeof inputValues !== 'undefined' ? inputValues[key] : undefined;
 		if (dirtyCheck && (excludeDirty || (input && input.exclude_dirty))) {
 			dirtyCheck = false;
 		}
@@ -72,10 +72,10 @@ export default function useValidation<E, K extends unknown, I extends GenericInp
 		return v.value[key].$error;
 	};
 
-	let data = isRef(formData) ? formData.value : formData;
+	const data = isRef(formData) ? formData.value : formData;
 	const keys: (keyof E)[] = Object.keys(formData) as (keyof E)[];
 
-	const inputsTouched: Ref<Array<keyof E>> = ref([]);
+	const inputsTouched: Ref<(keyof E)[]> = ref([]);
 	keys.forEach((itemKey) => {
 		if (isReactive(data)) {
 			const { [itemKey]: element } = toRefs(data);

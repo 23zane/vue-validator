@@ -3,6 +3,7 @@ import {isRef, Ref} from '@vue/composition-api';
 import {email, maxLength, minLength, not, required, required as requiredFunction, sameAs} from '@vuelidate/validators';
 import {GenericInput, InputType, RuleNames} from './types';
 import moment from 'moment/moment';
+import Vue from 'vue';
 
 type ValidationRuleParams =
 	ValidationRuleWithParams<{ equalTo: string; otherName: string; }>
@@ -13,7 +14,7 @@ type ValidationRuleParams =
 
 
 export function getRule<K extends Record<string, any>, I extends GenericInput = GenericInput>(
-	rule: RuleNames,
+	rule: RuleNames | {key: string, func: () => boolean},
 	formData?:
 		| {
 		[key in keyof K]: any;
@@ -26,6 +27,13 @@ export function getRule<K extends Record<string, any>, I extends GenericInput = 
 		| ValidationRuleParams
 		| ValidationRuleWithParams | ValidationRuleWithoutParams
 } | undefined {
+	if(typeof rule === 'object'){
+		return {
+			key: rule.key,
+			func: rule.func
+		}
+	}
+
 	if (rule.toLowerCase().localeCompare('required') === 0) {
 		return {
 			key: 'required',
@@ -398,7 +406,7 @@ export function getRule<K extends Record<string, any>, I extends GenericInput = 
 	if (rule.indexOf('requiredIfNot:') > -1) {
 		return {
 			key: 'requiredIfNot',
-			func: function (
+			func (
 				this:
 					| (Vue & {
 					[key: string]: string | Vue;
@@ -407,8 +415,8 @@ export function getRule<K extends Record<string, any>, I extends GenericInput = 
 				value: string | string[] | number[],
 			) {
 				const nameValue = rule.replace('requiredIfNot:', '');
-				let name = nameValue,
-					val;
+				let name = nameValue;
+				let val;
 
 				if (nameValue.indexOf(',') > -1) {
 					name = nameValue.split(',')[0];
@@ -428,8 +436,8 @@ export function getRule<K extends Record<string, any>, I extends GenericInput = 
 				}
 
 				if (!ref) {
-					if (typeof formData != 'undefined') {
-						let data: {
+					if (typeof formData !== 'undefined') {
+						const data: {
 							[key in keyof K]: any;
 						} = isRef(formData) ? {...formData.value} : {...formData};
 
@@ -454,7 +462,7 @@ export function getRule<K extends Record<string, any>, I extends GenericInput = 
 						if (ref === null || typeof ref === 'undefined') {
 							return false;
 						}
-						//@ts-ignore
+						// @ts-ignore
 						ref = ref[b] as Vue | string;
 					});
 				} else {
@@ -483,8 +491,8 @@ export function getRule<K extends Record<string, any>, I extends GenericInput = 
 		return {
 			key: 'regex',
 			func: (value: string) => {
-				const string = rule.replace('regex:/', '');
-				const reg = new RegExp(string.substr(0, string.length - 1));
+				const stringValue = rule.replace('regex:/', '');
+				const reg = new RegExp(stringValue.substr(0, stringValue.length - 1));
 				return reg.test(value);
 			},
 		};
@@ -629,7 +637,7 @@ export default function useValidationRules<E, K, I extends GenericInput = Generi
 				required: requiredFunction,
 			};
 		}
-		input.rules.forEach((rule: string) => {
+		input.rules.forEach((rule) => {
 			const ruleObject = getRule(rule, formData) as
 				| {
 				key: string;
