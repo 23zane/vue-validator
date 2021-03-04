@@ -51,6 +51,9 @@ export function getRule<K extends Record<string, any>, I extends GenericInput = 
 		return {
 			key: 'password',
 			func: (value: string) => {
+				if(!value){
+					return true;
+				}
 				return (
 					value.length >= 8 &&
 					new RegExp('[a-z]').test(value) &&
@@ -65,6 +68,9 @@ export function getRule<K extends Record<string, any>, I extends GenericInput = 
 		return {
 			key: 'telephone',
 			func: (value: string) => {
+				if(!value){
+					return true;
+				}
 				if (value.toString().length < 7 || value.toString().length > 14) {
 					return false;
 				}
@@ -86,6 +92,9 @@ export function getRule<K extends Record<string, any>, I extends GenericInput = 
 		return {
 			key: 'char',
 			func: (value: string) => {
+				if(!value){
+					return true;
+				}
 				return value.length >= 8;
 			},
 		};
@@ -94,6 +103,9 @@ export function getRule<K extends Record<string, any>, I extends GenericInput = 
 		return {
 			key: 'uppercase',
 			func: (value: string) => {
+				if(!value){
+					return true;
+				}
 				const reg = new RegExp('[A-Z]');
 				return reg.test(value);
 			},
@@ -104,6 +116,9 @@ export function getRule<K extends Record<string, any>, I extends GenericInput = 
 		return {
 			key: 'lowercase',
 			func: (value: string) => {
+				if(!value){
+					return true;
+				}
 				const reg = new RegExp('[a-z]');
 				return reg.test(value);
 			},
@@ -114,6 +129,9 @@ export function getRule<K extends Record<string, any>, I extends GenericInput = 
 		return {
 			key: 'number',
 			func: (value: string) => {
+				if(!value){
+					return true;
+				}
 				const reg = new RegExp('[0-9]');
 				return reg.test(value);
 			},
@@ -490,6 +508,9 @@ export function getRule<K extends Record<string, any>, I extends GenericInput = 
 		return {
 			key: 'regex',
 			func: (value: string) => {
+				if(!value){
+					return true;
+				}
 				const stringValue = rule.replace('regex:/', '');
 				const reg = new RegExp(stringValue.substr(0, stringValue.length - 1));
 				return reg.test(value);
