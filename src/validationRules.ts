@@ -1,10 +1,9 @@
 import {ValidationRule, ValidationRuleWithoutParams, ValidationRuleWithParams} from '@vuelidate/core';
 import {isRef, Ref} from '@vue/composition-api';
 import {email, maxLength, minLength, not, required, required as requiredFunction, sameAs} from '@vuelidate/validators';
-import {GenericInput, InputType, RuleNames} from './types';
+import { GenericInput, InputType, RuleNames, ValidationFunction } from './types';
 import moment from 'moment/moment';
 import Vue from 'vue';
-export type ValidationFunction = <K extends any = any>(value: K) => boolean;
 type ValidationRuleParams =
 	ValidationRuleWithParams<{ equalTo: string; otherName: string; }>
 	| ValidationRuleWithParams<{ max: number }>

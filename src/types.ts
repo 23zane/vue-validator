@@ -1,4 +1,4 @@
-import { ValidationFunction } from './validationRules';
+export type ValidationFunction = <K extends any = any>(value: K) => boolean;
 
 export type GenericInput = {
 	mandatory: boolean;
