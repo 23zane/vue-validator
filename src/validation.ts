@@ -1,5 +1,5 @@
 import { useVuelidate, Validation, ValidationRule } from '@vuelidate/core';
-import { computed, isReactive, isRef, ref, Ref, toRefs, watch } from '@vue/composition-api';
+import { computed, isReactive, isRef, ref, Ref, toRefs, watch } from 'vue-demi';
 import { GenericInput, InputType } from './types';
 import useValidationRules from './validationRules';
 export default function useValidation<E, K extends unknown, I extends GenericInput = GenericInput>(
@@ -40,7 +40,7 @@ export default function useValidation<E, K extends unknown, I extends GenericInp
 		}) as (keyof E)[];
 
 		return keys.some((key) => {
-			const validationObject: Validation = v.value[key] as Validation;
+			const validationObject: Validation = v.value[key] as unknown as Validation;
 			const inputValues: Record<keyof E, I> | undefined = isRef(inputs) ? inputs.value : inputs;
 			const input: I | undefined = typeof inputValues !== 'undefined' ? inputValues[key] : undefined;
 
