@@ -14,7 +14,7 @@ type ValidationRuleParams =
 	| ValidationRuleWithParams<{ length: number }>
 	;
 export const getRule: <K extends Record<string, any>, I extends GenericInput = GenericInput>(
-	rule: RuleNames,
+	rule: RuleNames | {key: string, func: <K extends string | string[] | number[] | boolean = string | string[] | number[] | boolean>(value: K) => boolean},
 	formData?:
 		| {
 		[key in keyof K]: any;
