@@ -4,7 +4,7 @@ import {GenericInput, InputType, RuleNames} from "./src/types";
 
 export * from "./src/types";
 
-export type ValidationFunction = <K extends unknown = unknown>(value: K) => boolean;
+export type ValidationFunction = <K extends any = any>(value: K) => boolean;
 export type ValidationArgs<E extends Record<string | number, any> = Record<string | number, any>> = {
 	[key in keyof E]: ValidationRule | ValidationArgs<E>
 }

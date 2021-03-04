@@ -4,7 +4,7 @@ import {email, maxLength, minLength, not, required, required as requiredFunction
 import {GenericInput, InputType, RuleNames} from './types';
 import moment from 'moment/moment';
 import Vue from 'vue';
-export type ValidationFunction = <K extends unknown = unknown>(value: K) => boolean;
+export type ValidationFunction = <K extends any = any>(value: K) => boolean;
 type ValidationRuleParams =
 	ValidationRuleWithParams<{ equalTo: string; otherName: string; }>
 	| ValidationRuleWithParams<{ max: number }>

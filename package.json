@@ -1,6 +1,6 @@
 {
   "name": "@23zane/vue-validator",
-  "version": "1.0.12",
+  "version": "1.0.13",
   "description": "Validator based on Vuelidate",
   "main": "lib/validation.js",
   "keywords": [
