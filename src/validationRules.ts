@@ -4,7 +4,7 @@ import {email, maxLength, minLength, not, required, required as requiredFunction
 import {GenericInput, InputType, RuleNames} from './types';
 import moment from 'moment/moment';
 import Vue from 'vue';
-
+export type ValidationFunction = <K extends string | string[] | number[] | boolean = string | string[] | number[] | boolean>(value: K) => boolean;
 type ValidationRuleParams =
 	ValidationRuleWithParams<{ equalTo: string; otherName: string; }>
 	| ValidationRuleWithParams<{ max: number }>
@@ -14,7 +14,7 @@ type ValidationRuleParams =
 
 
 export function getRule<K extends Record<string, any>, I extends GenericInput = GenericInput>(
-	rule: RuleNames | {key: string, func: <K extends string | string[] | number[] | boolean = string | string[] | number[] | boolean>(value: K) => boolean},
+	rule: RuleNames | {key: string, func: ValidationFunction},
 	formData?:
 		| {
 		[key in keyof K]: any;

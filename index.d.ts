@@ -4,6 +4,7 @@ import {GenericInput, InputType, RuleNames} from "./src/types";
 
 export * from "./src/types";
 
+export type ValidationFunction = <K extends string | string[] | number[] | boolean = string | string[] | number[] | boolean>(value: K) => boolean;
 export type ValidationArgs<E extends Record<string | number, any> = Record<string | number, any>> = {
 	[key in keyof E]: ValidationRule | ValidationArgs<E>
 }
@@ -14,7 +15,7 @@ type ValidationRuleParams =
 	| ValidationRuleWithParams<{ length: number }>
 	;
 export const getRule: <K extends Record<string, any>, I extends GenericInput = GenericInput>(
-	rule: RuleNames | {key: string, func: <K extends string | string[] | number[] | boolean = string | string[] | number[] | boolean>(value: K) => boolean},
+	rule: RuleNames | {key: string, func: ValidationFunction},
 	formData?:
 		| {
 		[key in keyof K]: any;

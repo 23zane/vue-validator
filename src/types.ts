@@ -1,8 +1,10 @@
+import { ValidationFunction } from '../index';
+
 export type GenericInput = {
 	mandatory: boolean;
 	name: string;
 	exclude_dirty?: boolean; // Per evitare il controllo dirty
-	rules: (string | {key: string, func: <K extends string | string[] | number[] | boolean = string | string[] | number[] | boolean>(value: K) => boolean})[];
+	rules: (string | {key: string, func: ValidationFunction})[];
 };
 
 export type InputType<E, I extends GenericInput = GenericInput> = Record<keyof E, I>;
