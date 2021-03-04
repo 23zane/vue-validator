@@ -30,7 +30,7 @@ export const getRule: <K extends Record<string, any>, I extends GenericInput = G
 } | undefined;
 
 export const useValidationRules: <FormDataType, FormDataValuesType extends unknown, InputTypes extends GenericInput = GenericInput>(
-	inputs: Ref<InputType<FormDataType, InputTypes>> | InputType<FormDataType, InputTypes>,
+	inputs: Ref<InputType<FormDataType, InputTypes>> | ComputedRef<InputType<FormDataType, InputTypes>> | InputType<FormDataType, InputTypes>,
 	formData:
 		| Record<keyof FormDataType, FormDataValuesType>
 		| Ref<Record<keyof FormDataType, FormDataValuesType>>
@@ -39,7 +39,7 @@ export const useValidationRules: <FormDataType, FormDataValuesType extends unkno
 
 
 export const useValidation: <FormDataType, FormDataValuesType extends unknown, InputTypes extends GenericInput = GenericInput>(
-	inputs: Ref<InputType<FormDataType, InputTypes>> | InputType<FormDataType, InputTypes>,
+	inputs: Ref<InputType<FormDataType, InputTypes>> | ComputedRef<InputType<FormDataType, InputTypes>> | InputType<FormDataType, InputTypes>,
 	formData: Record<keyof FormDataType, FormDataValuesType> | Ref<Record<keyof FormDataType, FormDataValuesType>>,
 	checkDirty?: boolean,
 	registerAs?: string,

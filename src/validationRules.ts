@@ -1,5 +1,5 @@
 import {ValidationRule, ValidationRuleWithoutParams, ValidationRuleWithParams} from '@vuelidate/core';
-import {isRef, Ref} from 'vue-demi';
+import { ComputedRef, isRef, Ref } from 'vue-demi';
 import {email, maxLength, minLength, not, required, required as requiredFunction, sameAs} from '@vuelidate/validators';
 import { GenericInput, InputType, RuleNames, ValidationFunction } from './types';
 import moment from 'moment/moment';
@@ -628,7 +628,7 @@ export function getRule<K extends Record<string, any>, I extends GenericInput = 
 }
 
 export default function useValidationRules<E, K, I extends GenericInput = GenericInput>(
-	inputs: Ref<InputType<E, I>> | InputType<E, I>,
+	inputs: Ref<InputType<E, I>> | ComputedRef<InputType<E, I>>| InputType<E, I>,
 	formData:
 		| {
 		[key in keyof E]: K;
