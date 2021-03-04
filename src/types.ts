@@ -1,4 +1,4 @@
-import { ValidationFunction } from '../index';
+import { ValidationFunction } from './validationRules';
 
 export type GenericInput = {
 	mandatory: boolean;
