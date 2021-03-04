@@ -1,8 +1,8 @@
-import {Ref} from "vue-demi";
-import {Validation, ValidationRule, ValidationRuleWithoutParams, ValidationRuleWithParams} from "@vuelidate/core";
-import {GenericInput, InputType, RuleNames} from "./src/types";
+import { ComputedRef, Ref } from 'vue-demi';
+import { Validation, ValidationRule, ValidationRuleWithoutParams, ValidationRuleWithParams } from '@vuelidate/core';
+import { GenericInput, InputType, RuleNames } from './src/types';
 
-export * from "./src/types";
+export * from './src/types';
 
 export type ValidationFunction = (value: any) => boolean;
 export type ValidationArgs<E extends Record<string | number, any> = Record<string | number, any>> = {
@@ -15,7 +15,7 @@ type ValidationRuleParams =
 	| ValidationRuleWithParams<{ length: number }>
 	;
 export const getRule: <K extends Record<string, any>, I extends GenericInput = GenericInput>(
-	rule: RuleNames | {key: string, func: ValidationFunction},
+	rule: RuleNames | { key: string, func: ValidationFunction },
 	formData?:
 		| {
 		[key in keyof K]: any;
@@ -33,7 +33,8 @@ export const useValidationRules: <FormDataType, FormDataValuesType extends unkno
 	inputs: Ref<InputType<FormDataType, InputTypes>> | InputType<FormDataType, InputTypes>,
 	formData:
 		| Record<keyof FormDataType, FormDataValuesType>
-		| Ref<Record<keyof FormDataType, FormDataValuesType>>,
+		| Ref<Record<keyof FormDataType, FormDataValuesType>>
+		| ComputedRef<Record<keyof FormDataType, FormDataValuesType>>,
 ) => Record<keyof FormDataType, Record<string, ValidationRule<unknown>> | undefined>;
 
 
