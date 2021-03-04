@@ -599,8 +599,11 @@ export function getRule<K extends Record<string, any>, I extends GenericInput = 
 
 	if (rule.localeCompare('App\\Rules\\TaxCode') === 0 || rule.toLowerCase().localeCompare('tax_code') === 0) {
 		return {
-			key: 'regex',
+			key: 'tax_code',
 			func: (value: string) => {
+				if(!value){
+					return true;
+				}
 				const reg = new RegExp(/^([a-zA-Z]{6})([0-9]{2})([a-zA-Z])([0-9]{2})([a-zA-Z])([0-9]{3})([a-zA-Z])$/);
 				return reg.test(value);
 			},
@@ -610,8 +613,11 @@ export function getRule<K extends Record<string, any>, I extends GenericInput = 
 	if (rule.localeCompare('App\\Rules\\CompanyTaxCode') === 0 || rule.toLowerCase().localeCompare(
 		'company_tax_code') === 0) {
 		return {
-			key: 'regex',
+			key: 'company_tax_code',
 			func: (value: string) => {
+				if(!value){
+					return true;
+				}
 				const reg = new RegExp(/^([a-zA-Z]{6})([0-9]{2})([a-zA-Z])([0-9]{2})([a-zA-Z])([0-9]{3})([a-zA-Z])$/);
 
 				const reg2 = new RegExp(/^[0-9]{11}$/);
