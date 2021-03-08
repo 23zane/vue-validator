@@ -587,6 +587,19 @@ export function getRule<K extends Record<string, any>, I extends GenericInput = 
 		};
 	}
 
+	if(rule.toLowerCase().localeCompare('postal_code') === 0){
+		return {
+			key: 'postal_code',
+			func: (value: string) => {
+				if (!value) {
+					return true;
+				}
+				const reg = new RegExp(/^[0-9]{5}$/);
+				return reg.test(value);
+			},
+		};
+	}
+
 	if (rule.localeCompare('App\\Rules\\VatCode') === 0 || rule.toLowerCase().localeCompare('vat_code') === 0) {
 		return {
 			key: 'regex',
