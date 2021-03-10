@@ -522,6 +522,9 @@ export function getRule<K extends Record<string, any>, I extends GenericInput = 
 		return {
 			key: 'number',
 			func: (value: string) => {
+				if(!value){
+					return true;
+				}
 				const reg = new RegExp(/^([0-9]+)$/);
 				return reg.test(value);
 			},
@@ -532,6 +535,9 @@ export function getRule<K extends Record<string, any>, I extends GenericInput = 
 		return {
 			key: 'iban',
 			func: (value: string) => {
+				if(!value){
+					return true;
+				}
 				const reg = new RegExp(/^[a-zA-Z]{2}[0-9]{2}[a-zA-Z0-9]{4}[0-9]{7}([a-zA-Z0-9]?){0,16}$/);
 				return reg.test(value);
 			},
@@ -542,6 +548,9 @@ export function getRule<K extends Record<string, any>, I extends GenericInput = 
 		return {
 			key: 'stamp_number',
 			func: (value: string) => {
+				if(!value){
+					return true;
+				}
 				const reg = new RegExp(/^([0-9]{14})$/);
 				return reg.test(value);
 			},
@@ -604,6 +613,9 @@ export function getRule<K extends Record<string, any>, I extends GenericInput = 
 		return {
 			key: 'regex',
 			func: (value: string) => {
+				if(!value){
+					return true;
+				}
 				const reg = new RegExp(/^[0-9]{11}$/);
 				return reg.test(value);
 			},
