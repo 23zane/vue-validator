@@ -3,7 +3,6 @@ import { computed, ComputedRef, isReactive, isRef, ref, Ref, toRefs, watch, isVu
 import { GenericInput, InputType } from './types';
 import useValidationRules from './validationRules';
 import VueCompositionAPI from "@vue/composition-api";
-const {isVue3} =
 const Vue = require('vue');
 if(isVue2) {
 	Vue.use(VueCompositionAPI);
