@@ -1,6 +1,6 @@
 {
   "name": "@23zane/vue-validator",
-  "version": "1.1.9",
+  "version": "1.1.10",
   "description": "Validator based on Vuelidate",
   "main": "lib/validation.js",
   "keywords": [
@@ -37,7 +37,7 @@
   },
   "dependencies": {
     "@types/vuelidate": "^0.7.13",
-    "@vue/composition-api": "1.0.0-rc.3",
+    "@vue/composition-api": "^1.0.0-rc.3",
     "@vuelidate/core": "^2.0.0-alpha.8",
     "@vuelidate/validators": "^2.0.0-alpha.5",
     "moment": "^2.29.1",
