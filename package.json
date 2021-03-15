@@ -1,6 +1,6 @@
 {
   "name": "@23zane/vue-validator",
-  "version": "1.1.6",
+  "version": "1.1.7",
   "description": "Validator based on Vuelidate",
   "main": "lib/validation.js",
   "keywords": [
@@ -29,6 +29,7 @@
   "author": "23zane",
   "license": "ISC",
   "devDependencies": {
+    "@types/node": "^14.14.34",
     "prettier": "^2.2.1",
     "tslint": "^6.1.3",
     "tslint-config-prettier": "^1.18.0",

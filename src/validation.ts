@@ -1,7 +1,13 @@
 import { useVuelidate, Validation, ValidationRule } from '@vuelidate/core';
-import { computed, ComputedRef, isReactive, isRef, ref, Ref, toRefs, watch } from 'vue-demi';
+import { computed, ComputedRef, isReactive, isRef, ref, Ref, toRefs, watch, isVue2 } from 'vue-demi';
 import { GenericInput, InputType } from './types';
 import useValidationRules from './validationRules';
+import VueCompositionAPI from "@vue/composition-api";
+const {isVue3} =
+const Vue = require('vue');
+if(isVue2) {
+	Vue.use(VueCompositionAPI);
+}
 export default function useValidation<E, K extends unknown, I extends GenericInput = GenericInput>(
 	inputs: Ref<InputType<E, I>> | ComputedRef<InputType<E, I>> | InputType<E, I>,
 	formData:
