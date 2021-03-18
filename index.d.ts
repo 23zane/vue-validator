@@ -1,4 +1,4 @@
-import { ComputedRef, Ref } from 'vue-demi';
+import { ComputedRef, Ref } from 'vue';
 import { Validation, ValidationRule, ValidationRuleWithoutParams, ValidationRuleWithParams } from '@vuelidate/core';
 import { GenericInput, InputType, RuleNames } from './src/types';
 

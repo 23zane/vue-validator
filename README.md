@@ -1,5 +1,5 @@
 # Vue Validator
-Vue validator based on [@vue/composition-api](https://github.com/vuejs/composition-api) (with [vue-demi](https://github.com/vueuse/vue-demi), so you can use it with both Vue 2 and 3), [@vuelidate/validators](https://vuelidate-next.netlify.app/) and [@vuelidate/core](https://vuelidate-next.netlify.app/).
+Vue 3 validator based on [@vue/composition-api](https://github.com/vuejs/composition-api), [@vuelidate/validators](https://vuelidate-next.netlify.app/) and [@vuelidate/core](https://vuelidate-next.netlify.app/).
 
 This package is built to use validation on a generic reactive object,which displays inputs related to its type.
 ## Usage
@@ -26,7 +26,7 @@ It receives a record of generic inputs with these properties:
 export type GenericInput = {
 	mandatory: boolean;
 	name: string;
-	rules: string[];
+	rules: (string | {key: string, func: (value: any) => boolean})[];
 	exclude_dirty?: boolean; //To avoid dirty check
 }
 ```
