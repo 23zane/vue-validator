@@ -1,5 +1,5 @@
 import {ValidationRule, ValidationRuleWithoutParams, ValidationRuleWithParams} from '@vuelidate/core';
-import { ComputedRef, isRef, Ref } from 'vue';
+import { computed, ComputedRef, isRef, Ref } from 'vue';
 import {email, maxLength, minLength, not, required, required as requiredFunction, sameAs} from '@vuelidate/validators';
 import { GenericInput, InputType, RuleNames, ValidationFunction } from './types';
 import moment from 'moment/moment';
@@ -662,58 +662,62 @@ export default function useValidationRules<E, K, I extends GenericInput = Generi
 		[key in keyof E]: K;
 	}>,
 ) {
-	type inputsType = typeof inputs;
+	return computed(() => {
 
-	const rules: {
-		[key in keyof E]?: {
-			[key: string]: ValidationRule;
-		};
-	} = {};
-
-	let inputValues: InputType<E>;
-	if (isRef(inputs)) {
-		inputValues = inputs.value;
-	} else {
-		inputValues = {...inputs};
-	}
-	(Object.keys(inputValues) as (keyof inputsType)[]).forEach((key) => {
-		const input = inputValues[key];
-		if (typeof rules[key] === 'undefined') {
-			rules[key] = {};
-		}
-
-		if (input.mandatory) {
-			rules[key] = {
-				...rules[key]!,
-				required: requiredFunction,
+		const rules: {
+			[key in keyof E]?: {
+				[key: string]: ValidationRule;
 			};
+		} = {};
+
+		let inputValues: InputType<E>;
+		if (isRef(inputs)) {
+			inputValues = inputs.value;
+		} else {
+			inputValues = {...inputs};
 		}
-		input.rules.forEach((rule) => {
-			const ruleObject = getRule(rule, formData) as
-				| {
-				key: string;
-				func: ValidationRule;
+
+		type inputsType = typeof inputValues;
+		(Object.keys(inputValues) as (keyof inputsType)[]).forEach((key) => {
+			const input = inputValues[key];
+			if (typeof rules[key] === 'undefined') {
+				rules[key] = {};
 			}
-				| undefined;
-			if (ruleObject) {
-				if (typeof rules[key] === 'undefined') {
-					rules[key] = {};
-				}
 
-				let newKey: string = ruleObject.key.toString();
-				let i = 0;
-
-				while (rules[key]!.hasOwnProperty(newKey)) {
-					newKey = ruleObject.key.toString() + (i++).toString();
-				}
-
+			if (input.mandatory) {
 				rules[key] = {
 					...rules[key]!,
-					[newKey]: ruleObject.func,
+					required: requiredFunction,
 				};
 			}
+			input.rules.forEach((rule) => {
+				const ruleObject = getRule(rule, formData) as
+					| {
+					key: string;
+					func: ValidationRule;
+				}
+					| undefined;
+				if (ruleObject) {
+					if (typeof rules[key] === 'undefined') {
+						rules[key] = {};
+					}
+
+					let newKey: string = ruleObject.key.toString();
+					let i = 0;
+
+					while (rules[key]!.hasOwnProperty(newKey)) {
+						newKey = ruleObject.key.toString() + (i++).toString();
+					}
+
+					rules[key] = {
+						...rules[key]!,
+						[newKey]: ruleObject.func,
+					};
+				}
+			});
 		});
+
+		return rules;
 	});
 
-	return rules;
 }
