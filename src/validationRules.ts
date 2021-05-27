@@ -1,5 +1,5 @@
 import {ValidationRule, ValidationRuleWithoutParams, ValidationRuleWithParams} from '@vuelidate/core';
-import { computed, ComputedRef, isRef, Ref } from 'vue';
+import { computed, ComputedRef, isRef, Ref } from '@vue/composition-api';
 import {email, maxLength, minLength, not, required, required as requiredFunction, sameAs} from '@vuelidate/validators';
 import { GenericInput, InputType, RuleNames, ValidationFunction } from './types';
 import moment from 'moment/moment';
@@ -179,14 +179,14 @@ export function getRule<K extends Record<string, any>, I extends GenericInput = 
 		}
 		return {
 			key: 'sameAs',
-			func: sameAs(rule.replace('sameAs:', '')),
+			func: sameAs(rule.replace('sameAs:', ''), ''),
 		};
 	}
 
 	if (rule.indexOf('notSameAs:') > -1) {
 		return {
 			key: 'notSameAs',
-			func: not(sameAs(rule.replace('notSameAs:', ''))),
+			func: not(sameAs(rule.replace('notSameAs:', ''),'')),
 		};
 	}
 
