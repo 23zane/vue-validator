@@ -33,6 +33,14 @@ export default function useValidation<E, K extends unknown, I extends GenericInp
 		Record<keyof E, K>
 	>(rules, formData, registerAs);
 
+	const computedIsInputInvalid = (key: keyof E, excludeDirty?: boolean) : ComputedRef<boolean> => {
+		return computed(() => {
+			if(!v.value[key]){
+				return true;
+			}
+			return isInputInvalid(key, excludeDirty);
+		});
+	};
 	const isInvalid = computed<boolean>(() => {
 		// tslint:disable-next-line:no-shadowed-variable
 		const keys: (keyof E)[] = Object.keys(v.value).filter((key) => {
@@ -87,21 +95,6 @@ export default function useValidation<E, K extends unknown, I extends GenericInp
 					inputsTouched.value.push(itemKey);
 				}
 			});
-
-			if (callbacks?.onInputValid || callbacks?.onInputInvalid) {
-				const { [itemKey]: element } = v.value;
-				if (typeof element !== "undefined") {
-					watch(element, () => {
-						if (callbacks?.onInputInvalid && isInputInvalid(itemKey)) {
-							callbacks.onInputInvalid(itemKey);
-						}
-
-						if (callbacks?.onInputValid && !isInputInvalid(itemKey)) {
-							callbacks.onInputValid(itemKey);
-						}
-					});
-				}
-			}
 		});
 	} else if (isRef(formData)) {
 		watch(formData, (newValue, oldValue) => {
@@ -115,6 +108,21 @@ export default function useValidation<E, K extends unknown, I extends GenericInp
 			});
 		});
 	}
+
+	keys.forEach((itemKey) => {
+
+		watch(computedIsInputInvalid(itemKey), (value) => {
+			if (callbacks?.onInputValid || callbacks?.onInputInvalid) {
+				if (callbacks?.onInputInvalid && value) {
+					callbacks.onInputInvalid(itemKey);
+				}
+
+				if (callbacks?.onInputValid && !value) {
+					callbacks.onInputValid(itemKey);
+				}
+			}
+		});
+	});
 
 	const isInputTouched = (key: keyof E) => {
 		return inputsTouched.value.indexOf(key) > -1;
