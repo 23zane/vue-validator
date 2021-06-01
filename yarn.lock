@@ -42,19 +42,19 @@
   dependencies:
     tslib "^2.2.0"
 
-"@vuelidate/core@2.0.0-alpha.10":
-  version "2.0.0-alpha.10"
-  resolved "https://registry.yarnpkg.com/@vuelidate/core/-/core-2.0.0-alpha.10.tgz#a9166551850d2b2a71f7b57a5b199cdcb4637d12"
-  integrity sha512-bcTcWPxSEZMTawvuAb9Q8awQFgGI42l41kBAz35ql8FdeBYm1Dw9o0S+J/9hPY10KblmcdpHH2ez15GtXa4cig==
+"@vuelidate/core@2.0.0-alpha.18":
+  version "2.0.0-alpha.18"
+  resolved "https://registry.yarnpkg.com/@vuelidate/core/-/core-2.0.0-alpha.18.tgz#03ae1e90f21268b94ac1e96dc5695d5fc76b5b46"
+  integrity sha512-g6Pn0efTwSUbZWyCX0v4cLOiZoszrTCFC2CI8gI5szmgVZV30hmC3aI7yCutHwaPpPd2cxMB+XILS6cl7QHiYA==
   dependencies:
     vue-demi "^0.6.0"
 
-"@vuelidate/validators@2.0.0-alpha.6":
-  version "2.0.0-alpha.6"
-  resolved "https://registry.yarnpkg.com/@vuelidate/validators/-/validators-2.0.0-alpha.6.tgz#675861a1463f28228a0e837ee7e82d3b832bc8c9"
-  integrity sha512-FolFjxxAZIMTmfzKSvKYxBYB8WDENgkVZpGwNDq1N11uxi1vTKvxUOBvhiHWwnSNrGvP58j3Ybu5lTC8nUgvig==
+"@vuelidate/validators@2.0.0-alpha.15":
+  version "2.0.0-alpha.15"
+  resolved "https://registry.yarnpkg.com/@vuelidate/validators/-/validators-2.0.0-alpha.15.tgz#b58a67cc74f1529adc34be02ab68971122bba8c5"
+  integrity sha512-G1gFPPA6ogLaQd2MRwg0gGCo1T5m52bQomTMvGeELWXc6WoDs416KSCZnh7hLktfm4BQBlKFKwM8PiiVJJDNuQ==
   dependencies:
-    vue-demi latest
+    vue-demi "^0.6.0"
 
 ansi-styles@^3.2.1:
   version "3.2.1"
@@ -322,11 +322,6 @@ vue-demi@^0.6.0:
   version "0.6.2"
   resolved "https://registry.yarnpkg.com/vue-demi/-/vue-demi-0.6.2.tgz#ed9633eaa69b7409cc6e8328e8a6c3d31ab39319"
   integrity sha512-4KfwxbqsZcDz7UryD11oHa6FLK9Gzx4MIwAEcP37IbUdXuF6DHg2w9L5Zv5t+FNqsuAjEQ2NnGVIZ3u71y435Q==
-
-vue-demi@latest:
-  version "0.9.1"
-  resolved "https://registry.yarnpkg.com/vue-demi/-/vue-demi-0.9.1.tgz#25d6e1ebd4d4010757ff3571e2bf6a1d7bf3de82"
-  integrity sha512-7s1lufRD2l369eFWPjgLvhqCRk0XzGWJsQc7K4q+0mZtixyGIvsK1Cg88P4NcaRIEiBuuN4q1NN4SZKFKwQswA==
 
 vue@^2.6.11, vue@^2.6.12:
   version "2.6.12"

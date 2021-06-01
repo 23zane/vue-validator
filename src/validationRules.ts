@@ -1,5 +1,5 @@
 import {ValidationRule, ValidationRuleWithoutParams, ValidationRuleWithParams} from '@vuelidate/core';
-import { computed, ComputedRef, isRef, Ref } from '@vue/composition-api';
+import { computed, ComputedRef, isRef, Ref } from 'vue-demi';
 import {email, maxLength, minLength, not, required, required as requiredFunction, sameAs} from '@vuelidate/validators';
 import { GenericInput, InputType, RuleNames, ValidationFunction } from './types';
 import moment from 'moment/moment';
