@@ -368,7 +368,6 @@ export function getRule<K extends Record<string, any>, I extends GenericInput = 
 					val = false;
 				}
 
-				if (!ref) {
 					if (typeof formData !== 'undefined') {
 						const data: {
 							[key in keyof K]: any;
@@ -387,6 +386,7 @@ export function getRule<K extends Record<string, any>, I extends GenericInput = 
 						return true;
 					}
 
+				if (!ref) {
 					return false;
 				}
 
@@ -452,7 +452,6 @@ export function getRule<K extends Record<string, any>, I extends GenericInput = 
 					val = false;
 				}
 
-				if (!ref) {
 					if (typeof formData !== 'undefined') {
 						const data: {
 							[key in keyof K]: any;
@@ -471,6 +470,7 @@ export function getRule<K extends Record<string, any>, I extends GenericInput = 
 						return true;
 					}
 
+				if (!ref) {
 					return false;
 				}
 
