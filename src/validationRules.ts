@@ -1,9 +1,18 @@
-import {ValidationRule, ValidationRuleWithoutParams, ValidationRuleWithParams} from '@vuelidate/core';
+import { ValidationRule, ValidationRuleWithoutParams, ValidationRuleWithParams } from '@vuelidate/core';
 import { computed, ComputedRef, isRef, Ref } from 'vue-demi';
-import {email, maxLength, minLength, not, required, required as requiredFunction, sameAs} from '@vuelidate/validators';
+import {
+	email,
+	maxLength,
+	minLength,
+	not,
+	required,
+	required as requiredFunction,
+	sameAs,
+} from '@vuelidate/validators';
 import { GenericInput, InputType, RuleNames, ValidationFunction } from './types';
 import moment from 'moment/moment';
 import Vue from 'vue';
+
 type ValidationRuleParams =
 	ValidationRuleWithParams<{ equalTo: string; otherName: string; }>
 	| ValidationRuleWithParams<{ max: number }>
@@ -13,7 +22,7 @@ type ValidationRuleParams =
 
 
 export function getRule<K extends Record<string, any>, I extends GenericInput = GenericInput>(
-	rule: RuleNames | {key: string, func: ValidationFunction},
+	rule: RuleNames | { key: string, func: ValidationFunction },
 	formData?:
 		| {
 		[key in keyof K]: any;
@@ -26,11 +35,11 @@ export function getRule<K extends Record<string, any>, I extends GenericInput = 
 		| ValidationRuleParams
 		| ValidationRuleWithParams | ValidationRuleWithoutParams
 } | undefined {
-	if(typeof rule === 'object'){
+	if (typeof rule === 'object') {
 		return {
 			key: rule.key,
-			func: rule.func
-		}
+			func: rule.func,
+		};
 	}
 
 	if (rule.toLowerCase().localeCompare('required') === 0) {
@@ -51,7 +60,7 @@ export function getRule<K extends Record<string, any>, I extends GenericInput = 
 		return {
 			key: 'password',
 			func: (value: string) => {
-				if(!value){
+				if (!value) {
 					return true;
 				}
 				return (
@@ -68,7 +77,7 @@ export function getRule<K extends Record<string, any>, I extends GenericInput = 
 		return {
 			key: 'telephone',
 			func: (value: string) => {
-				if(!value){
+				if (!value) {
 					return true;
 				}
 				if (value.toString().length < 7 || value.toString().length > 14) {
@@ -92,7 +101,7 @@ export function getRule<K extends Record<string, any>, I extends GenericInput = 
 		return {
 			key: 'char',
 			func: (value: string) => {
-				if(!value){
+				if (!value) {
 					return true;
 				}
 				return value.length >= 8;
@@ -103,7 +112,7 @@ export function getRule<K extends Record<string, any>, I extends GenericInput = 
 		return {
 			key: 'uppercase',
 			func: (value: string) => {
-				if(!value){
+				if (!value) {
 					return true;
 				}
 				const reg = new RegExp('[A-Z]');
@@ -116,7 +125,7 @@ export function getRule<K extends Record<string, any>, I extends GenericInput = 
 		return {
 			key: 'lowercase',
 			func: (value: string) => {
-				if(!value){
+				if (!value) {
 					return true;
 				}
 				const reg = new RegExp('[a-z]');
@@ -129,7 +138,7 @@ export function getRule<K extends Record<string, any>, I extends GenericInput = 
 		return {
 			key: 'number',
 			func: (value: string) => {
-				if(!value){
+				if (!value) {
 					return true;
 				}
 				const reg = new RegExp('[0-9]');
@@ -171,10 +180,10 @@ export function getRule<K extends Record<string, any>, I extends GenericInput = 
 				func: (value: string) => {
 					const data: {
 						[key in keyof K]: any;
-					} = isRef(formData) ? {...formData!.value} : {...formData};
+					} = isRef(formData) ? { ...formData!.value } : { ...formData };
 
 					return data[name as keyof K] === value;
-				}
+				},
 			};
 		}
 		return {
@@ -186,7 +195,7 @@ export function getRule<K extends Record<string, any>, I extends GenericInput = 
 	if (rule.indexOf('notSameAs:') > -1) {
 		return {
 			key: 'notSameAs',
-			func: not(sameAs(rule.replace('notSameAs:', ''),'')),
+			func: not(sameAs(rule.replace('notSameAs:', ''), '')),
 		};
 	}
 
@@ -368,25 +377,25 @@ export function getRule<K extends Record<string, any>, I extends GenericInput = 
 					val = false;
 				}
 
-				if (!ref) {
-					if (typeof formData !== 'undefined') {
-						const data: {
-							[key in keyof K]: any;
-						} = isRef(formData) ? {...formData.value} : {...formData};
+				if (typeof formData !== 'undefined') {
+					const data: {
+						[key in keyof K]: any;
+					} = isRef(formData) ? { ...formData.value } : { ...formData };
 
-						if (!data.hasOwnProperty(name)) {
-							return false;
-						}
-
-						if (data[name] === val) {
-							return Array.isArray(value)
-								? value.length > 0
-								: value != null && value.toString().length > 0;
-						}
-
-						return true;
+					if (!data.hasOwnProperty(name)) {
+						return false;
 					}
 
+					if (data[name] === val) {
+						return Array.isArray(value)
+							? value.length > 0
+							: value != null && value.toString().length > 0;
+					}
+
+					return true;
+				}
+
+				if (!ref) {
 					return false;
 				}
 
@@ -423,7 +432,7 @@ export function getRule<K extends Record<string, any>, I extends GenericInput = 
 	if (rule.indexOf('requiredIfNot:') > -1) {
 		return {
 			key: 'requiredIfNot',
-			func (
+			func(
 				this:
 					| (Vue & {
 					[key: string]: string | Vue;
@@ -452,25 +461,25 @@ export function getRule<K extends Record<string, any>, I extends GenericInput = 
 					val = false;
 				}
 
-				if (!ref) {
-					if (typeof formData !== 'undefined') {
-						const data: {
-							[key in keyof K]: any;
-						} = isRef(formData) ? {...formData.value} : {...formData};
+				if (typeof formData !== 'undefined') {
+					const data: {
+						[key in keyof K]: any;
+					} = isRef(formData) ? { ...formData.value } : { ...formData };
 
-						if (!data.hasOwnProperty(name)) {
-							return false;
-						}
-
-						if (data[name] !== val) {
-							return Array.isArray(value)
-								? value.length > 0
-								: value != null && value.toString().length > 0;
-						}
-
-						return true;
+					if (!data.hasOwnProperty(name)) {
+						return false;
 					}
 
+					if (data[name] !== val) {
+						return Array.isArray(value)
+							? value.length > 0
+							: value != null && value.toString().length > 0;
+					}
+
+					return true;
+				}
+
+				if (!ref) {
 					return false;
 				}
 
@@ -508,7 +517,7 @@ export function getRule<K extends Record<string, any>, I extends GenericInput = 
 		return {
 			key: 'regex',
 			func: (value: string) => {
-				if(!value){
+				if (!value) {
 					return true;
 				}
 				const stringValue = rule.replace('regex:/', '');
@@ -522,7 +531,7 @@ export function getRule<K extends Record<string, any>, I extends GenericInput = 
 		return {
 			key: 'number',
 			func: (value: string) => {
-				if(!value){
+				if (!value) {
 					return true;
 				}
 				const reg = new RegExp(/^([0-9]+)$/);
@@ -535,7 +544,7 @@ export function getRule<K extends Record<string, any>, I extends GenericInput = 
 		return {
 			key: 'iban',
 			func: (value: string) => {
-				if(!value){
+				if (!value) {
 					return true;
 				}
 				const reg = new RegExp(/^[a-zA-Z]{2}[0-9]{2}[a-zA-Z0-9]{4}[0-9]{7}([a-zA-Z0-9]?){0,16}$/);
@@ -548,7 +557,7 @@ export function getRule<K extends Record<string, any>, I extends GenericInput = 
 		return {
 			key: 'stamp_number',
 			func: (value: string) => {
-				if(!value){
+				if (!value) {
 					return true;
 				}
 				const reg = new RegExp(/^([0-9]{14})$/);
@@ -596,7 +605,7 @@ export function getRule<K extends Record<string, any>, I extends GenericInput = 
 		};
 	}
 
-	if(rule.toLowerCase().localeCompare('postal_code') === 0){
+	if (rule.toLowerCase().localeCompare('postal_code') === 0) {
 		return {
 			key: 'postal_code',
 			func: (value: string) => {
@@ -613,7 +622,7 @@ export function getRule<K extends Record<string, any>, I extends GenericInput = 
 		return {
 			key: 'regex',
 			func: (value: string) => {
-				if(!value){
+				if (!value) {
 					return true;
 				}
 				const reg = new RegExp(/^[0-9]{11}$/);
@@ -626,7 +635,7 @@ export function getRule<K extends Record<string, any>, I extends GenericInput = 
 		return {
 			key: 'tax_code',
 			func: (value: string) => {
-				if(!value){
+				if (!value) {
 					return true;
 				}
 				const reg = new RegExp(/^([a-zA-Z]{6})([0-9]{2})([a-zA-Z])([0-9]{2})([a-zA-Z])([0-9]{3})([a-zA-Z])$/);
@@ -640,7 +649,7 @@ export function getRule<K extends Record<string, any>, I extends GenericInput = 
 		return {
 			key: 'company_tax_code',
 			func: (value: string) => {
-				if(!value){
+				if (!value) {
 					return true;
 				}
 				const reg = new RegExp(/^([a-zA-Z]{6})([0-9]{2})([a-zA-Z])([0-9]{2})([a-zA-Z])([0-9]{3})([a-zA-Z])$/);
@@ -653,7 +662,7 @@ export function getRule<K extends Record<string, any>, I extends GenericInput = 
 }
 
 export default function useValidationRules<E, K, I extends GenericInput = GenericInput>(
-	inputs: Ref<InputType<E, I>> | ComputedRef<InputType<E, I>>| InputType<E, I>,
+	inputs: Ref<InputType<E, I>> | ComputedRef<InputType<E, I>> | InputType<E, I>,
 	formData:
 		| {
 		[key in keyof E]: K;
@@ -674,7 +683,7 @@ export default function useValidationRules<E, K, I extends GenericInput = Generi
 		if (isRef(inputs)) {
 			inputValues = inputs.value;
 		} else {
-			inputValues = {...inputs};
+			inputValues = { ...inputs };
 		}
 
 		type inputsType = typeof inputValues;
