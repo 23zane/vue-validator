@@ -84,7 +84,7 @@ export default function useValidation<E, K extends unknown, I extends GenericInp
 	};
 
 	const data = isRef(formData) ? formData.value : formData;
-	const keys: (keyof E)[] = Object.keys(isRef(formData) ? formData.value : formData) as (keyof E)[];
+	const keys: (keyof E)[] = Object.keys(data) as (keyof E)[];
 
 	const inputsTouched: Ref<(keyof E)[]> = ref([]);
 	if (isReactive(data)) {
@@ -109,6 +109,8 @@ export default function useValidation<E, K extends unknown, I extends GenericInp
 					inputsTouched.value.push(itemKey);
 				}
 			});
+		}, {
+			deep: true
 		});
 	}
 
