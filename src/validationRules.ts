@@ -179,14 +179,14 @@ export function getRule<K extends Record<string, any>, I extends GenericInput = 
 		}
 		return {
 			key: 'sameAs',
-			func: sameAs(rule.replace('sameAs:', ''), ''),
+			func: sameAs(rule.replace('sameAs:', ''), ),
 		};
 	}
 
 	if (rule.indexOf('notSameAs:') > -1) {
 		return {
 			key: 'notSameAs',
-			func: not(sameAs(rule.replace('notSameAs:', ''), '')),
+			func: not(sameAs(rule.replace('notSameAs:', ''), )),
 		};
 	}
 

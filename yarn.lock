@@ -103,19 +103,19 @@
   resolved "https://registry.yarnpkg.com/@vue/shared/-/shared-3.1.2.tgz#1069c0bc7d6f4bd15ccf3a5f3be29450aca368f9"
   integrity sha512-EmH/poaDWBPJaPILXNI/1fvUbArJQmmTyVCwvvyDYDFnkPoTclAbHRAtyIvqfez7jybTDn077HTNILpxlsoWhg==
 
-"@vuelidate/core@2.0.0-alpha.8":
-  version "2.0.0-alpha.8"
-  resolved "https://registry.yarnpkg.com/@vuelidate/core/-/core-2.0.0-alpha.8.tgz#47dd904cb888c02f6640d381ba07cf975552c35c"
-  integrity sha512-cH1Za78g5LiTLHXEWfvM66LYQP/yeN2DOr3Wjf1Q5jlPsCNdLPxyianBdHOjsNcxNGrRof6/45DDROTS3Z5CrA==
+"@vuelidate/core@^2.0.0-alpha.20":
+  version "2.0.0-alpha.20"
+  resolved "https://registry.yarnpkg.com/@vuelidate/core/-/core-2.0.0-alpha.20.tgz#63e2fbb44e7a9f20dc520f74f866b7ef7e0f7ecd"
+  integrity sha512-1y/s9S0cpywQ1GutvqMZkRs3HPy5XP/t/lyI/Nk1Eh8Rf7hwZiIfXCuiQgfDL7EbfxTOFS/+d7BcMSl1t02n0A==
   dependencies:
-    vue-demi latest
+    vue-demi "^0.9.1"
 
-"@vuelidate/validators@2.0.0-alpha.5":
-  version "2.0.0-alpha.5"
-  resolved "https://registry.yarnpkg.com/@vuelidate/validators/-/validators-2.0.0-alpha.5.tgz#79787240981f9ec6ea3532bee3f974044e4b515d"
-  integrity sha512-0UsqQhZKWwLTjzYIcyPUOldOrzn044r5GDRa7GoXUrLI+K1b7rTSEzv3EfDoOED/SyLKg3bsvSgfmt5aYLd0sQ==
+"@vuelidate/validators@^2.0.0-alpha.18":
+  version "2.0.0-alpha.18"
+  resolved "https://registry.yarnpkg.com/@vuelidate/validators/-/validators-2.0.0-alpha.18.tgz#4e6008ed6d098f9a1ffd20b4fc06730c1cbc24fb"
+  integrity sha512-JLH5uoynR6lLzmzGjb6sqxmDng1BB+FUpoKb38BNqUheM7ZMJeetZVZ9T/PUL5K8btLgoEqrPHL+SWHrOwIm7w==
   dependencies:
-    vue-demi latest
+    vue-demi "^0.9.1"
 
 ansi-styles@^3.2.1:
   version "3.2.1"
@@ -399,7 +399,7 @@ typescript@^4.1.5:
   resolved "https://registry.yarnpkg.com/typescript/-/typescript-4.2.4.tgz#8610b59747de028fda898a8aef0e103f156d0961"
   integrity sha512-V+evlYHZnQkaz8TRBuxTA92yZBPotr5H+WhQ7bD3hZUndx5tGOa1fuCgeSjxAzM1RiN5IzvadIXTVefuuwZCRg==
 
-vue-demi@latest:
+vue-demi@^0.9.1:
   version "0.9.1"
   resolved "https://registry.yarnpkg.com/vue-demi/-/vue-demi-0.9.1.tgz#25d6e1ebd4d4010757ff3571e2bf6a1d7bf3de82"
   integrity sha512-7s1lufRD2l369eFWPjgLvhqCRk0XzGWJsQc7K4q+0mZtixyGIvsK1Cg88P4NcaRIEiBuuN4q1NN4SZKFKwQswA==
