@@ -87,19 +87,7 @@ export default function useValidation<E, K extends unknown, I extends GenericInp
 	const keys: (keyof E)[] = Object.keys(data) as (keyof E)[];
 
 	const inputsTouched: Ref<(keyof E)[]> = ref([]);
-	if (isReactive(data)) {
-		keys.forEach((itemKey) => {
-			const { [itemKey]: element } = toRefs(data);
-			watch(element, (newValue, oldValue) => {
-				if (newValue !== oldValue) {
-					if (callbacks?.onInputChange) {
-						callbacks.onInputChange(itemKey, newValue as E[keyof E]);
-					}
-					inputsTouched.value.push(itemKey);
-				}
-			});
-		});
-	} else if (isRef(formData)) {
+	if (isRef(formData)) {
 		watch(formData, (newValue, oldValue) => {
 			keys.forEach((itemKey) => {
 				if (newValue[itemKey] !== oldValue[itemKey]) {
@@ -110,7 +98,19 @@ export default function useValidation<E, K extends unknown, I extends GenericInp
 				}
 			});
 		}, {
-			deep: true
+				  deep: true
+			  });
+	}else if (isReactive(data)) {
+		keys.forEach((itemKey) => {
+			const { [itemKey]: element } = toRefs(data);
+			watch(element, (newValue, oldValue) => {
+				if (newValue !== oldValue) {
+					if (callbacks?.onInputChange) {
+						callbacks.onInputChange(itemKey, newValue as E[keyof E]);
+					}
+					inputsTouched.value.push(itemKey);
+				}
+			});
 		});
 	}
 
