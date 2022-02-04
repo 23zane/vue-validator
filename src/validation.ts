@@ -2,17 +2,16 @@ import { useVuelidate, Validation, ValidationRule } from '@vuelidate/core';
 import { computed, ComputedRef, isReactive, isRef, ref, Ref, toRefs, watch } from 'vue-demi';
 import { GenericInput, InputType } from './types';
 import useValidationRules from './validationRules';
+
 export default function useValidation<E, K extends unknown, I extends GenericInput = GenericInput>(
 	inputs: Ref<InputType<E, I>> | ComputedRef<InputType<E, I>> | InputType<E, I>,
 	formData:
 		| {
-				[key in keyof E]: K;
-		  }
-		| Ref<
-				{
-					[key in keyof E]: K;
-				}
-		  >,
+		[key in keyof E]: K;
+	}
+		| Ref<{
+		[key in keyof E]: K;
+	}>,
 	checkDirty?: boolean,
 	registerAs?: string,
 	callbacks?: Partial<{
@@ -27,15 +26,13 @@ export default function useValidation<E, K extends unknown, I extends GenericInp
 	};
 
 	// @ts-ignore
-	const v = useVuelidate<
-		// @ts-ignore
+	const v = useVuelidate<// @ts-ignore
 		ValidationArgs,
-		Record<keyof E, K>
-	>(rules, formData, registerAs);
+		Record<keyof E, K>>(rules, formData, registerAs);
 
-	const computedIsInputInvalid = (key: keyof E, excludeDirty?: boolean) : ComputedRef<boolean> => {
+	const computedIsInputInvalid = (key: keyof E, excludeDirty?: boolean): ComputedRef<boolean> => {
 		return computed(() => {
-			if(!v.value[key]){
+			if (!v.value[key]) {
 				return true;
 			}
 			return isInputInvalid(key, excludeDirty);
@@ -80,28 +77,34 @@ export default function useValidation<E, K extends unknown, I extends GenericInp
 		return v.value[key].$error;
 	};
 
+	const isInputSilentlyInvalid = (key: keyof E) => {
+		return v.value[key].$silentErrors && v.value[key].$silentErrors.length > 0;
+	};
+
 	const data = isRef(formData) ? formData.value : formData;
-	const keys: (keyof E)[] = Object.keys(isRef(formData) ? formData.value : formData) as (keyof E)[];
+	const keys: (keyof E)[] = Object.keys(data) as (keyof E)[];
 
 	const inputsTouched: Ref<(keyof E)[]> = ref([]);
-	if (isReactive(data)) {
+	if (isRef(formData)) {
+		watch(formData, (newValue, oldValue) => {
+			keys.forEach((itemKey) => {
+				if (newValue[itemKey] !== oldValue[itemKey]) {
+					if (callbacks?.onInputChange) {
+						callbacks.onInputChange(itemKey, newValue[itemKey] as E[keyof E]);
+					}
+					inputsTouched.value.push(itemKey);
+				}
+			});
+		}, {
+				  deep: true,
+			  });
+	} else if (isReactive(data)) {
 		keys.forEach((itemKey) => {
 			const { [itemKey]: element } = toRefs(data);
 			watch(element, (newValue, oldValue) => {
 				if (newValue !== oldValue) {
 					if (callbacks?.onInputChange) {
 						callbacks.onInputChange(itemKey, newValue as E[keyof E]);
-					}
-					inputsTouched.value.push(itemKey);
-				}
-			});
-		});
-	} else if (isRef(formData)) {
-		watch(formData, (newValue, oldValue) => {
-			keys.forEach((itemKey) => {
-				if (newValue[itemKey] !== oldValue[itemKey]) {
-					if (callbacks?.onInputChange) {
-						callbacks.onInputChange(itemKey, newValue[itemKey] as E[keyof E]);
 					}
 					inputsTouched.value.push(itemKey);
 				}
@@ -131,6 +134,7 @@ export default function useValidation<E, K extends unknown, I extends GenericInp
 	return {
 		v,
 		isInvalid,
+		isInputSilentlyInvalid,
 		isInputInvalid,
 		isInputTouched,
 	};
