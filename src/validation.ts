@@ -83,6 +83,10 @@ export default function useValidation<E, K extends unknown, I extends GenericInp
 		return v.value[key].$error;
 	};
 
+	const isInputSilentlyInvalid = (key: keyof E) => {
+		return v.value[key].$silentErrors && v.value[key].$silentErrors.length > 0;
+	}
+
 	const data = isRef(formData) ? formData.value : formData;
 	const keys: (keyof E)[] = Object.keys(data) as (keyof E)[];
 
@@ -136,6 +140,7 @@ export default function useValidation<E, K extends unknown, I extends GenericInp
 	return {
 		v,
 		isInvalid,
+		isInputSilentlyInvalid,
 		isInputInvalid,
 		isInputTouched,
 	};
