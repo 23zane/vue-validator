@@ -1,6 +1,6 @@
 {
   "name": "@23zane/vue-validator",
-  "version": "1.2.3",
+  "version": "1.2.4",
   "description": "Validator based on Vuelidate",
   "main": "lib/validation.js",
   "keywords": [
@@ -12,7 +12,7 @@
     "validation"
   ],
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "echo \"Error: no test spyarn buicified\" && exit 1",
     "build": "tsc",
     "format": "prettier --write \"src/**/*.ts\" \"src/**/*.js\"",
     "lint": "tslint -p tsconfig.json"
