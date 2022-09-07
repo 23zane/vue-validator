@@ -1,4 +1,4 @@
-import { useVuelidate, Validation, ValidationRule } from '@vuelidate/core';
+import { useVuelidate, Validation, ValidationRule, ValidationArgs } from '@vuelidate/core';
 import { computed, ComputedRef, isReactive, isRef, ref, Ref, toRefs, watch } from 'vue-demi';
 import { GenericInput, InputType } from './types';
 import useValidationRules from './validationRules';
@@ -25,16 +25,13 @@ export default function useValidation<E, K extends unknown, I extends GenericInp
 	}>,
 ) {
 	const rules = useValidationRules<E, K, I>(inputs, formData);
-	type ValidationArgs = {
-		[key in keyof E]: ValidationRule<K> | ValidationArgs;
-	};
+
 
 	// @ts-ignore
 	const v = useVuelidate<
-		// @ts-ignore
-		ValidationArgs,
-		Record<keyof E, K>
-	>(rules, formData, registerAs);
+		Record<keyof E, K>,
+		Partial<Record<keyof E, ValidationArgs>>
+	>(rules, formData, {$registerAs : registerAs});
 
 	const computedIsInputInvalid = (key: keyof E, excludeDirty?: boolean) : ComputedRef<boolean> => {
 		return computed(() => {

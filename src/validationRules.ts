@@ -1,4 +1,4 @@
-import { ValidationRule, ValidationRuleWithoutParams, ValidationRuleWithParams } from '@vuelidate/core';
+import { ValidationArgs, ValidationRule, ValidationRuleWithoutParams, ValidationRuleWithParams } from '@vuelidate/core';
 import { computed, ComputedRef, isRef, Ref } from 'vue-demi';
 import {
 	email,
@@ -671,13 +671,9 @@ export default function useValidationRules<E, K, I extends GenericInput = Generi
 		[key in keyof E]: K;
 	}>,
 ) {
-	return computed(() => {
+	return computed<Partial<Record<keyof E, ValidationArgs>>>(() => {
 
-		const rules: {
-			[key in keyof E]?: {
-				[key: string]: ValidationRule;
-			};
-		} = {};
+		const rules: Partial<Record<keyof E, ValidationArgs>> = {};
 
 		let inputValues: InputType<E>;
 		if (isRef(inputs)) {
