@@ -1,4 +1,4 @@
-import { ComputedRef, Ref } from 'vue';
+import { ComputedRef, Ref } from 'vue-demi';
 import { Validation, ValidationRule, ValidationRuleWithoutParams, ValidationRuleWithParams } from '@vuelidate/core';
 import { GenericInput, InputType, RuleNames } from './src/types';
 
@@ -35,7 +35,7 @@ export const useValidationRules: <FormDataType, FormDataValuesType extends unkno
 		| Record<keyof FormDataType, FormDataValuesType>
 		| Ref<Record<keyof FormDataType, FormDataValuesType>>
 		| ComputedRef<Record<keyof FormDataType, FormDataValuesType>>,
-) => Record<keyof FormDataType, Record<string, ValidationRule<unknown>> | undefined>;
+) => Record<keyof FormDataType, Record<string, ValidationArgs> | undefined>;
 
 
 export const useValidation: <FormDataType, FormDataValuesType extends unknown, InputTypes extends GenericInput = GenericInput>(
