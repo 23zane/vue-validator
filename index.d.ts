@@ -1,13 +1,10 @@
 import { ComputedRef, Ref } from 'vue-demi';
-import { Validation, ValidationRule, ValidationRuleWithoutParams, ValidationRuleWithParams } from '@vuelidate/core';
+import { Validation, ValidationRule, ValidationRuleWithoutParams, ValidationRuleWithParams, ValidationArgs } from '@vuelidate/core';
 import { GenericInput, InputType, RuleNames } from './src/types';
 
 export * from './src/types';
 
 export type ValidationFunction = (value: any) => boolean;
-export type ValidationArgs<E extends Record<string | number, any> = Record<string | number, any>> = {
-	[key in keyof E]: ValidationRule | ValidationArgs<E>
-}
 type ValidationRuleParams =
 	ValidationRuleWithParams<{ equalTo: string; otherName: string; }>
 	| ValidationRuleWithParams<{ max: number }>
@@ -35,7 +32,7 @@ export const useValidationRules: <FormDataType, FormDataValuesType extends unkno
 		| Record<keyof FormDataType, FormDataValuesType>
 		| Ref<Record<keyof FormDataType, FormDataValuesType>>
 		| ComputedRef<Record<keyof FormDataType, FormDataValuesType>>,
-) => Record<keyof FormDataType, Record<string, ValidationArgs> | undefined>;
+) => Record<keyof FormDataType, Record<string, ValidationRule<unknown>> | undefined>;
 
 
 export const useValidation: <FormDataType, FormDataValuesType extends unknown, InputTypes extends GenericInput = GenericInput>(
@@ -48,7 +45,7 @@ export const useValidation: <FormDataType, FormDataValuesType extends unknown, I
 		onInputInvalid: <K extends keyof FormDataType = keyof FormDataType>(key: K) => void;
 		onInputValid: <K extends keyof FormDataType = keyof FormDataType>(key: K) => void;
 	}>) => {
-	v: Ref<Validation<ValidationArgs<FormDataType>, Record<keyof FormDataType, FormDataValuesType>>>,
+	v: Ref<Validation<Partial<Record<keyof FormDataType, ValidationArgs<unknown>>>, Record<keyof FormDataType, FormDataValuesType>>>
 	isInvalid: Ref<boolean>,
 	isInputInvalid: (key: keyof FormDataType, excludeDirty?: boolean) => boolean,
 	isInputSilentlyInvalid: (key: keyof FormDataType) => boolean,

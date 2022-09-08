@@ -8,14 +8,9 @@ install()
 export default function useValidation<E, K extends unknown, I extends GenericInput = GenericInput>(
 	inputs: Ref<InputType<E, I>> | ComputedRef<InputType<E, I>> | InputType<E, I>,
 	formData:
-		| {
-				[key in keyof E]: K;
-		  }
-		| Ref<
-				{
-					[key in keyof E]: K;
-				}
-		  >,
+		| Record<keyof E, K>
+		| Ref<Record<keyof E, K>>
+	,
 	checkDirty?: boolean,
 	registerAs?: string,
 	callbacks?: Partial<{
@@ -26,8 +21,6 @@ export default function useValidation<E, K extends unknown, I extends GenericInp
 ) {
 	const rules = useValidationRules<E, K, I>(inputs, formData);
 
-
-	// @ts-ignore
 	const v = useVuelidate<
 		Record<keyof E, K>,
 		Partial<Record<keyof E, ValidationArgs>>

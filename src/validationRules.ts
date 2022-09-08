@@ -1,4 +1,4 @@
-import { ValidationArgs, ValidationRule, ValidationRuleWithoutParams, ValidationRuleWithParams } from '@vuelidate/core';
+import { ValidationRule, ValidationRuleWithoutParams, ValidationRuleWithParams, ValidationArgs } from '@vuelidate/core';
 import { computed, ComputedRef, isRef, Ref } from 'vue-demi';
 import {
 	email,
