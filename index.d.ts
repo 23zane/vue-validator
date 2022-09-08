@@ -1,13 +1,10 @@
 import { ComputedRef, Ref } from 'vue-demi';
-import { Validation, ValidationRule, ValidationRuleWithoutParams, ValidationRuleWithParams } from '@vuelidate/core';
+import { Validation, ValidationRule, ValidationRuleWithoutParams, ValidationRuleWithParams, ValidationArgs } from '@vuelidate/core';
 import { GenericInput, InputType, RuleNames } from './src/types';
 
 export * from './src/types';
 
 export type ValidationFunction = (value: any) => boolean;
-export type ValidationArgs<E extends Record<string | number, any> = Record<string | number, any>> = {
-	[key in keyof E]: ValidationRule | ValidationArgs<E>
-}
 type ValidationRuleParams =
 	ValidationRuleWithParams<{ equalTo: string; otherName: string; }>
 	| ValidationRuleWithParams<{ max: number }>
