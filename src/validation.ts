@@ -1,10 +1,9 @@
-import { useVuelidate, Validation, ValidationRule, ValidationArgs } from '@vuelidate/core';
-import { computed, ComputedRef, isReactive, isRef, ref, Ref, toRefs, watch } from 'vue-demi';
-import { GenericInput, InputType } from './types';
+import { useVuelidate, type Validation, type ValidationArgs } from '@vuelidate/core';
+import { computed, type ComputedRef, install, isReactive, isRef, type Ref, ref, toRefs, watch } from 'vue-demi';
+import type { GenericInput, InputType } from './types';
 import useValidationRules from './validationRules';
-import { install } from 'vue-demi'
 
-install()
+install();
 export default function useValidation<E, K extends unknown, I extends GenericInput = GenericInput>(
 	inputs: Ref<InputType<E, I>> | ComputedRef<InputType<E, I>> | InputType<E, I>,
 	formData:
@@ -24,11 +23,11 @@ export default function useValidation<E, K extends unknown, I extends GenericInp
 	const v = useVuelidate<
 		Record<keyof E, K>,
 		Partial<Record<keyof E, ValidationArgs>>
-	>(rules, formData, {$registerAs : registerAs});
+	>(rules, formData, { $registerAs: registerAs });
 
-	const computedIsInputInvalid = (key: keyof E, excludeDirty?: boolean) : ComputedRef<boolean> => {
+	const computedIsInputInvalid = (key: keyof E, excludeDirty?: boolean): ComputedRef<boolean> => {
 		return computed(() => {
-			if(!v.value[key]){
+			if (!v.value[key]) {
 				return true;
 			}
 			return isInputInvalid(key, excludeDirty);
@@ -75,7 +74,7 @@ export default function useValidation<E, K extends unknown, I extends GenericInp
 
 	const isInputSilentlyInvalid = (key: keyof E) => {
 		return v.value[key].$silentErrors && v.value[key].$silentErrors.length > 0;
-	}
+	};
 
 	const data = isRef(formData) ? formData.value : formData;
 	const keys: (keyof E)[] = Object.keys(data) as (keyof E)[];
@@ -92,9 +91,9 @@ export default function useValidation<E, K extends unknown, I extends GenericInp
 				}
 			});
 		}, {
-				  deep: true
+				  deep: true,
 			  });
-	}else if (isReactive(data)) {
+	} else if (isReactive(data)) {
 		keys.forEach((itemKey) => {
 			const { [itemKey]: element } = toRefs(data);
 			watch(element, (newValue, oldValue) => {

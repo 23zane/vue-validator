@@ -1,5 +1,10 @@
-import { ValidationRule, ValidationRuleWithoutParams, ValidationRuleWithParams, ValidationArgs } from '@vuelidate/core';
-import { computed, ComputedRef, isRef, Ref } from 'vue-demi';
+import type {
+	ValidationArgs,
+	 ValidationRule,
+	ValidationRuleWithoutParams,
+	ValidationRuleWithParams,
+} from '@vuelidate/core';
+import { computed, type ComputedRef, isRef, type Ref } from 'vue-demi';
 import {
 	email,
 	maxLength,
@@ -9,9 +14,8 @@ import {
 	required as requiredFunction,
 	sameAs,
 } from '@vuelidate/validators';
-import { GenericInput, InputType, RuleNames, ValidationFunction } from './types';
+import type {  GenericInput,  InputType,  RuleNames,  ValidationFunction } from './types';
 import moment from 'moment/moment';
-import { Vue } from 'vue-demi';
 
 type ValidationRuleParams =
 	ValidationRuleWithParams<{ equalTo: string; otherName: string; }>
