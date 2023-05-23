@@ -1,9 +1,8 @@
 import { useVuelidate, type Validation, type ValidationArgs } from '@vuelidate/core';
-import { computed, type ComputedRef, install, isReactive, isRef, type Ref, ref, toRefs, watch } from 'vue-demi';
+import { computed, type ComputedRef, isReactive, isRef, type Ref, ref, toRefs, watch } from 'vue';
 import type { GenericInput, InputType } from './types';
 import useValidationRules from './validationRules';
 
-install();
 export default function useValidation<E, K extends unknown, I extends GenericInput = GenericInput>(
 	inputs: Ref<InputType<E, I>> | ComputedRef<InputType<E, I>> | InputType<E, I>,
 	formData:
