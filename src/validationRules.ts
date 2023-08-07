@@ -112,6 +112,18 @@ export function getRule<K extends Record<string, any>, I extends GenericInput = 
 			},
 		};
 	}
+	if (rule.toLowerCase().localeCompare('symbol') === 0) {
+		return {
+			key: 'uppercase',
+			func: (value: string) => {
+				if (!value) {
+					return true;
+				}
+				const reg = new RegExp('[@!$%&*]');
+				return reg.test(value);
+			},
+		};
+	}
 	if (rule.toLowerCase().localeCompare('uppercase') === 0) {
 		return {
 			key: 'uppercase',
