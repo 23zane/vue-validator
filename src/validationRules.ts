@@ -646,6 +646,18 @@ export function getRule<K extends Record<string, any>, I extends GenericInput = 
 			},
 		};
 	}
+	if (rule.toLowerCase().localeCompare('cif') === 0) {
+		return {
+			key: 'cif',
+			func: (value: string) => {
+				if (!value) {
+					return true;
+				}
+				const reg = new RegExp(/^[a-zA-Z][0-9]{7}[a-zA-Z]$/);
+				return reg.test(value);
+			},
+		};
+	}
 
 	if (rule.localeCompare('App\\Rules\\TaxCode') === 0 || rule.toLowerCase().localeCompare('tax_code') === 0) {
 		return {
@@ -655,6 +667,18 @@ export function getRule<K extends Record<string, any>, I extends GenericInput = 
 					return true;
 				}
 				const reg = new RegExp(/^([a-zA-Z]{6})([0-9]{2})([a-zA-Z])([0-9]{2})([a-zA-Z])([0-9]{3})([a-zA-Z])$/);
+				return reg.test(value);
+			},
+		};
+	}
+	if (rule.toLowerCase().localeCompare('nif') === 0) {
+		return {
+			key: 'nif',
+			func: (value: string) => {
+				if (!value) {
+					return true;
+				}
+				const reg = new RegExp(/^[a-zA-Z][0-9]{8}[a-zA-Z]$/);
 				return reg.test(value);
 			},
 		};
