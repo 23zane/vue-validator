@@ -1,6 +1,6 @@
 {
   "name": "@23zane/vue-validator",
-  "version": "2.0.18",
+  "version": "2.0.19",
   "description": "Validator based on Vuelidate",
   "main": "lib/validation.js",
   "keywords": [
@@ -29,19 +29,19 @@
   "author": "23zane",
   "license": "ISC",
   "devDependencies": {
-    "@babel/types": "^7.21.5",
-    "@types/node": "^20.2.3",
-    "prettier": "^2.8.8",
+    "@babel/types": "^7.23.4",
+    "@types/node": "^20.10.0",
+    "prettier": "^3.1.0",
     "tslint": "^6.1.3",
     "tslint-config-prettier": "^1.18.0",
-    "typescript": "^5.1.6"
+    "typescript": "^5.3.2"
   },
   "dependencies": {
-    "@types/vuelidate": "^0.7.18",
+    "@types/vuelidate": "^0.7.21",
     "@vuelidate/core": "^2.0.3",
-    "@vuelidate/validators": "^2.0.3",
+    "@vuelidate/validators": "^2.0.4",
     "moment": "^2.29.4",
-    "vue": "^3.3.4"
+    "vue": "^3.3.9"
   },
   "peerDependenciesMeta": {
     "@vue/composition-api": {
