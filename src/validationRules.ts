@@ -107,6 +107,21 @@ export function getRule<K extends Record<string, any>, I extends GenericInput = 
 			},
 		};
 	}
+	if (rule.toLowerCase().localeCompare('telephone_full') === 0) {
+		return {
+			key: 'telephone_full',
+			func: (value: string) => {
+				if (!value) {
+					return true;
+				}
+				if (value.toString().length < 7 || value.toString().length > 14) {
+					return false;
+				}
+
+				return new RegExp(/^([3|6|7]).*/).test(value);
+			},
+		};
+	}
 
 	if (rule.toLowerCase().localeCompare('accepted') === 0) {
 		return {
