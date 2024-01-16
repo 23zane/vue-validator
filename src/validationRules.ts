@@ -683,7 +683,7 @@ export function getRule<K extends Record<string, any>, I extends GenericInput = 
 				if (!value) {
 					return true;
 				}
-				const reg = new RegExp(/^([a-zA-Z]{6})([0-9]{2})([a-zA-Z])([0-9]{2})([a-zA-Z])([0-9]{3})([a-zA-Z])$/);
+				const reg = new RegExp(/^(?:[0-9]{8}[a-zA-Z]|[a-zA-Z][0-9]{7}[a-zA-Z]|[a-zA-Z][0-9]{8})$/);
 				return reg.test(value);
 			},
 		};
