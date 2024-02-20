@@ -5,10 +5,7 @@ import useValidationRules from './validationRules';
 
 export default function useValidation<E, K extends unknown, I extends GenericInput = GenericInput>(
 	inputs: Ref<InputType<E, I>> | ComputedRef<InputType<E, I>> | InputType<E, I>,
-	formData:
-		| Record<keyof E, K>
-		| Ref<Record<keyof E, K>>
-	,
+	formData: Record<keyof E, K> | Ref<Record<keyof E, K>>,
 	checkDirty?: boolean,
 	registerAs?: string,
 	callbacks?: Partial<{
@@ -19,10 +16,9 @@ export default function useValidation<E, K extends unknown, I extends GenericInp
 ) {
 	const rules = useValidationRules<E, K, I>(inputs, formData);
 
-	const v = useVuelidate<
-		Record<keyof E, K>,
-		Partial<Record<keyof E, ValidationArgs>>
-	>(rules, formData, { $registerAs: registerAs });
+	const v = useVuelidate<Record<keyof E, K>, Partial<Record<keyof E, ValidationArgs>>>(rules, formData, {
+		$registerAs: registerAs,
+	});
 
 	const computedIsInputInvalid = (key: keyof E, excludeDirty?: boolean): ComputedRef<boolean> => {
 		return computed(() => {
@@ -80,18 +76,22 @@ export default function useValidation<E, K extends unknown, I extends GenericInp
 
 	const inputsTouched: Ref<(keyof E)[]> = ref([]);
 	if (isRef(formData)) {
-		watch(formData, (newValue, oldValue) => {
-			keys.forEach((itemKey) => {
-				if (newValue[itemKey] !== oldValue[itemKey]) {
-					if (callbacks?.onInputChange) {
-						callbacks.onInputChange(itemKey, newValue[itemKey] as E[keyof E]);
+		watch(
+			formData,
+			(newValue, oldValue) => {
+				keys.forEach((itemKey) => {
+					if (newValue[itemKey] !== oldValue[itemKey]) {
+						if (callbacks?.onInputChange) {
+							callbacks.onInputChange(itemKey, newValue[itemKey] as E[keyof E]);
+						}
+						inputsTouched.value.push(itemKey);
 					}
-					inputsTouched.value.push(itemKey);
-				}
-			});
-		}, {
-				  deep: true,
-			  });
+				});
+			},
+			{
+				deep: true,
+			},
+		);
 	} else if (isReactive(data)) {
 		keys.forEach((itemKey) => {
 			const { [itemKey]: element } = toRefs(data);
@@ -107,7 +107,6 @@ export default function useValidation<E, K extends unknown, I extends GenericInp
 	}
 
 	keys.forEach((itemKey) => {
-
 		watch(computedIsInputInvalid(itemKey), (value) => {
 			if (callbacks?.onInputValid || callbacks?.onInputInvalid) {
 				if (callbacks?.onInputInvalid && value) {

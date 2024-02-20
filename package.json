@@ -1,6 +1,6 @@
 {
   "name": "@23zane/vue-validator",
-  "version": "2.0.26",
+  "version": "2.0.27",
   "description": "Validator based on Vuelidate",
   "main": "lib/validation.js",
   "keywords": [
@@ -14,7 +14,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "tsc",
-    "format": "prettier --write \"src/**/*.ts\" \"src/**/*.js\"",
+    "format": "prettier --write \"src/**/*.ts\"",
     "lint": "tslint -p tsconfig.json"
   },
   "files": [
@@ -30,8 +30,8 @@
   "license": "ISC",
   "devDependencies": {
     "@babel/types": "^7.23.9",
-    "@types/node": "^20.11.10",
-    "prettier": "^3.2.4",
+    "@types/node": "^20.11.19",
+    "prettier": "^3.2.5",
     "tslint": "^6.1.3",
     "tslint-config-prettier": "^1.18.0",
     "typescript": "^5.3.3"
@@ -41,7 +41,7 @@
     "@vuelidate/core": "^2.0.3",
     "@vuelidate/validators": "^2.0.4",
     "moment": "^2.29.4",
-    "vue": "^3.4.15"
+    "vue": "^3.4.19"
   },
   "peerDependenciesMeta": {
     "@vue/composition-api": {

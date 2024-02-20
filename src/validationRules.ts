@@ -18,27 +18,31 @@ import type { GenericInput, InputType, RuleNames, ValidationFunction } from './t
 import moment from 'moment/moment';
 
 type ValidationRuleParams =
-	ValidationRuleWithParams<{ equalTo: string; otherName: string; }>
+	| ValidationRuleWithParams<{ equalTo: string; otherName: string }>
 	| ValidationRuleWithParams<{ max: number }>
 	| ValidationRuleWithParams<{ min: number }>
-	| ValidationRuleWithParams<{ length: number }>
-	;
-
+	| ValidationRuleWithParams<{ length: number }>;
 
 export function getRule<K extends Record<string, any>, I extends GenericInput = GenericInput>(
-	rule: RuleNames | { key: string, func: ValidationFunction },
+	rule: RuleNames | { key: string; func: ValidationFunction },
 	formData?:
 		| {
-		[key in keyof K]: any;
-	}
+				[key in keyof K]: any;
+		  }
 		| Ref<{
-		[key in keyof K]: any;
-	}>,
-): {
-	key: string; func: ((value: string) => boolean) | (() => ValidationRule)
-		| ValidationRuleParams
-		| ValidationRuleWithParams | ValidationRuleWithoutParams
-} | undefined {
+				[key in keyof K]: any;
+		  }>,
+):
+	| {
+			key: string;
+			func:
+				| ((value: string) => boolean)
+				| (() => ValidationRule)
+				| ValidationRuleParams
+				| ValidationRuleWithParams
+				| ValidationRuleWithoutParams;
+	  }
+	| undefined {
 	if (typeof rule === 'object') {
 		return {
 			key: rule.key,
@@ -397,8 +401,8 @@ export function getRule<K extends Record<string, any>, I extends GenericInput = 
 			func(
 				this:
 					| (Vue & {
-					[key: string]: string | Vue;
-				})
+							[key: string]: string | Vue;
+					  })
 					| undefined,
 				value: string | string[] | number[],
 			) {
@@ -433,9 +437,7 @@ export function getRule<K extends Record<string, any>, I extends GenericInput = 
 					}
 
 					if (data[name] === val) {
-						return Array.isArray(value)
-							? value.length > 0
-							: value != null && value.toString().length > 0;
+						return Array.isArray(value) ? value.length > 0 : value != null && value.toString().length > 0;
 					}
 
 					return true;
@@ -481,8 +483,8 @@ export function getRule<K extends Record<string, any>, I extends GenericInput = 
 			func(
 				this:
 					| (Vue & {
-					[key: string]: string | Vue;
-				})
+							[key: string]: string | Vue;
+					  })
 					| undefined,
 				value: string | string[] | number[],
 			) {
@@ -517,9 +519,7 @@ export function getRule<K extends Record<string, any>, I extends GenericInput = 
 					}
 
 					if (data[name] !== val) {
-						return Array.isArray(value)
-							? value.length > 0
-							: value != null && value.toString().length > 0;
+						return Array.isArray(value) ? value.length > 0 : value != null && value.toString().length > 0;
 					}
 
 					return true;
@@ -714,8 +714,10 @@ export function getRule<K extends Record<string, any>, I extends GenericInput = 
 		};
 	}
 
-	if (rule.localeCompare('App\\Rules\\CompanyTaxCode') === 0 || rule.toLowerCase().localeCompare(
-		'company_tax_code') === 0) {
+	if (
+		rule.localeCompare('App\\Rules\\CompanyTaxCode') === 0 ||
+		rule.toLowerCase().localeCompare('company_tax_code') === 0
+	) {
 		return {
 			key: 'company_tax_code',
 			func: (value: string) => {
@@ -735,14 +737,13 @@ export default function useValidationRules<E, K, I extends GenericInput = Generi
 	inputs: Ref<InputType<E, I>> | ComputedRef<InputType<E, I>> | InputType<E, I>,
 	formData:
 		| {
-		[key in keyof E]: K;
-	}
+				[key in keyof E]: K;
+		  }
 		| Ref<{
-		[key in keyof E]: K;
-	}>,
+				[key in keyof E]: K;
+		  }>,
 ) {
 	return computed<Partial<Record<keyof E, ValidationArgs>>>(() => {
-
 		const rules: Partial<Record<keyof E, ValidationArgs>> = {};
 
 		let inputValues: InputType<E>;
@@ -768,9 +769,9 @@ export default function useValidationRules<E, K, I extends GenericInput = Generi
 			input.rules.forEach((rule) => {
 				const ruleObject = getRule(rule, formData) as
 					| {
-					key: string;
-					func: ValidationRule;
-				}
+							key: string;
+							func: ValidationRule;
+					  }
 					| undefined;
 				if (ruleObject) {
 					if (typeof rules[key] === 'undefined') {
@@ -794,5 +795,4 @@ export default function useValidationRules<E, K, I extends GenericInput = Generi
 
 		return rules;
 	});
-
 }

@@ -4,13 +4,13 @@ export type GenericInput = {
 	mandatory: boolean;
 	name: string;
 	exclude_dirty?: boolean; // Per evitare il controllo dirty
-	rules: (string | {key: string, func: ValidationFunction})[];
+	rules: (string | { key: string; func: ValidationFunction })[];
 };
 
 export type InputType<E, I extends GenericInput = GenericInput> = Record<keyof E, I>;
 
 export type RuleNames =
-	'required'
+	| 'required'
 	| 'email'
 	| 'password'
 	| 'telephone'
