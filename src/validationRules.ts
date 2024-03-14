@@ -4,7 +4,7 @@ import type {
 	ValidationRuleWithoutParams,
 	ValidationRuleWithParams,
 } from '@vuelidate/core';
-import { computed, type ComputedRef, isRef, type Ref } from 'vue';
+import { computed, type ComputedRef, isRef, type MaybeRef, type Ref } from 'vue';
 import {
 	email,
 	maxLength,
@@ -23,20 +23,14 @@ type ValidationRuleParams =
 	| ValidationRuleWithParams<{ min: number }>
 	| ValidationRuleWithParams<{ length: number }>;
 
-export function getRule<K extends Record<string, any>, I extends GenericInput = GenericInput>(
+export function getRule<K, I extends GenericInput = GenericInput>(
 	rule: RuleNames | { key: string; func: ValidationFunction },
-	formData?:
-		| {
-				[key in keyof K]: any;
-		  }
-		| Ref<{
-				[key in keyof K]: any;
-		  }>,
+	formData?: MaybeRef<K>
 ):
 	| {
 			key: string;
 			func:
-				| ((value: string) => boolean)
+				| ((value: never) => boolean)
 				| (() => ValidationRule)
 				| ValidationRuleParams
 				| ValidationRuleWithParams
@@ -224,7 +218,7 @@ export function getRule<K extends Record<string, any>, I extends GenericInput = 
 	if (rule.indexOf('sameAs:') > -1) {
 		const [ruleName, name] = rule.split(':');
 
-		if (typeof formData !== 'undefined' && formData.hasOwnProperty(name)) {
+		if (typeof formData !== 'undefined' && formData!.hasOwnProperty(name)) {
 			return {
 				key: ruleName,
 				func: (value: string) => {
@@ -735,13 +729,7 @@ export function getRule<K extends Record<string, any>, I extends GenericInput = 
 
 export default function useValidationRules<E, K, I extends GenericInput = GenericInput>(
 	inputs: Ref<InputType<E, I>> | ComputedRef<InputType<E, I>> | InputType<E, I>,
-	formData:
-		| {
-				[key in keyof E]: K;
-		  }
-		| Ref<{
-				[key in keyof E]: K;
-		  }>,
+	formData: MaybeRef<Record<keyof E, K>>
 ) {
 	return computed<Partial<Record<keyof E, ValidationArgs>>>(() => {
 		const rules: Partial<Record<keyof E, ValidationArgs>> = {};

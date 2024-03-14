@@ -1,4 +1,4 @@
-export type ValidationFunction = (value: any) => boolean;
+export type ValidationFunction = (value: never) => boolean;
 
 export type GenericInput = {
 	mandatory: boolean;
