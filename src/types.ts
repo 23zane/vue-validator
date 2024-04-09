@@ -1,8 +1,8 @@
 export type ValidationFunction = (value: never) => boolean;
 
-export type GenericInput = {
+export type GenericInput<RecordKey extends string = string> = {
 	mandatory: boolean;
-	name: string;
+	name: RecordKey;
 	exclude_dirty?: boolean; // Per evitare il controllo dirty
 	rules: (string | { key: string; func: ValidationFunction })[];
 };

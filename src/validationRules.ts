@@ -23,9 +23,9 @@ type ValidationRuleParams =
 	| ValidationRuleWithParams<{ min: number }>
 	| ValidationRuleWithParams<{ length: number }>;
 
-export function getRule<K, I extends GenericInput = GenericInput>(
+export function getRule<FormType, InputType extends GenericInput = GenericInput>(
 	rule: RuleNames | { key: string; func: ValidationFunction },
-	formData?: MaybeRef<K>
+	formData?: MaybeRef<FormType>
 ):
 	| {
 			key: string;
@@ -223,10 +223,10 @@ export function getRule<K, I extends GenericInput = GenericInput>(
 				key: ruleName,
 				func: (value: string) => {
 					const data: {
-						[key in keyof K]: any;
+						[key in keyof FormType]: any;
 					} = isRef(formData) ? { ...formData!.value } : { ...formData };
 
-					return data[name as keyof K] === value;
+					return data[name as keyof FormType] === value;
 				},
 			};
 		}
@@ -423,7 +423,7 @@ export function getRule<K, I extends GenericInput = GenericInput>(
 
 				if (typeof formData !== 'undefined') {
 					const data: {
-						[key in keyof K]: any;
+						[key in keyof FormType]: any;
 					} = isRef(formData) ? { ...formData.value } : { ...formData };
 
 					if (!data.hasOwnProperty(name)) {
@@ -505,7 +505,7 @@ export function getRule<K, I extends GenericInput = GenericInput>(
 
 				if (typeof formData !== 'undefined') {
 					const data: {
-						[key in keyof K]: any;
+						[key in keyof FormType]: any;
 					} = isRef(formData) ? { ...formData.value } : { ...formData };
 
 					if (!data.hasOwnProperty(name)) {
@@ -727,14 +727,14 @@ export function getRule<K, I extends GenericInput = GenericInput>(
 	}
 }
 
-export default function useValidationRules<E, K, I extends GenericInput = GenericInput>(
-	inputs: Ref<InputType<E, I>> | ComputedRef<InputType<E, I>> | InputType<E, I>,
-	formData: MaybeRef<Record<keyof E, K>>
+export default function useValidationRules<RecordKey, RecordValues, Input extends GenericInput = GenericInput>(
+	inputs: Ref<InputType<RecordKey, Input>> | ComputedRef<InputType<RecordKey, Input>> | InputType<RecordKey, Input>,
+	formData: MaybeRef<Record<keyof RecordKey, RecordValues>>
 ) {
-	return computed<Partial<Record<keyof E, ValidationArgs>>>(() => {
-		const rules: Partial<Record<keyof E, ValidationArgs>> = {};
+	return computed<Partial<Record<keyof RecordKey, ValidationArgs>>>(() => {
+		const rules: Partial<Record<keyof RecordKey, ValidationArgs>> = {};
 
-		let inputValues: InputType<E>;
+		let inputValues: InputType<RecordKey>;
 		if (isRef(inputs)) {
 			inputValues = inputs.value;
 		} else {
@@ -755,7 +755,7 @@ export default function useValidationRules<E, K, I extends GenericInput = Generi
 				};
 			}
 			input.rules.forEach((rule) => {
-				const ruleObject = getRule(rule, formData) as
+				const ruleObject = getRule<Record<keyof RecordKey, RecordValues>, Input>(rule, formData) as
 					| {
 							key: string;
 							func: ValidationRule;
