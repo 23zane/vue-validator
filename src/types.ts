@@ -24,6 +24,7 @@ export type RuleNames =
 	| 'maxLength'
 	| 'minLength'
 	| 'iban'
+	| 'iban_es'
 	| 'stamp_number'
 	| 'tax_code'
 	| 'vat_code'

@@ -592,6 +592,18 @@ export function getRule<FormType, InputType extends GenericInput = GenericInput>
 			},
 		};
 	}
+	if (rule.toLowerCase().localeCompare('iban_es') === 0) {
+		return {
+			key: 'iban',
+			func: (value: string) => {
+				if (!value) {
+					return true;
+				}
+				const reg = new RegExp(/^ES[0-9]{2}[0-9]{20}$/);
+				return reg.test(value);
+			},
+		};
+	}
 
 	if (rule.toLowerCase().localeCompare('stamp_number') === 0) {
 		return {
