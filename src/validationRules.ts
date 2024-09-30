@@ -15,7 +15,7 @@ import {
 	sameAs,
 } from '@vuelidate/validators';
 import type { GenericInput, InputType, RuleNames, ValidationFunction } from './types';
-import moment from 'moment/moment';
+import dayjs from 'dayjs';
 
 type ValidationRuleParams =
 	| ValidationRuleWithParams<{ equalTo: string; otherName: string }>
@@ -284,10 +284,10 @@ export function getRule<FormType, InputType extends GenericInput = GenericInput>
 				}
 				const reg = new RegExp(/^[0-9]{4}-[0-9]{2}-[0-9]{2}$/);
 				if (reg.test(value)) {
-					const minDate = moment(rule.replace('minDate:', ''), 'YYYY-MM-DD');
-					const actualDate = moment(value, 'YYYY-MM-DD');
+					const minDate = dayjs(rule.replace('minDate:', ''), 'YYYY-MM-DD');
+					const actualDate = dayjs(value, 'YYYY-MM-DD');
 
-					return actualDate.isSameOrAfter(minDate);
+					return actualDate.isSame(minDate) || actualDate.isAfter(minDate);
 				}
 				return false;
 			},
@@ -303,10 +303,10 @@ export function getRule<FormType, InputType extends GenericInput = GenericInput>
 				}
 				const reg = new RegExp(/^[0-9]{4}-[0-9]{2}-[0-9]{2}$/);
 				if (reg.test(value)) {
-					const maxDate = moment(rule.replace('maxDate:', ''), 'YYYY-MM-DD');
-					const actualDate = moment(value, 'YYYY-MM-DD');
+					const maxDate = dayjs(rule.replace('maxDate:', ''), 'YYYY-MM-DD');
+					const actualDate = dayjs(value, 'YYYY-MM-DD');
 
-					return actualDate.isSameOrBefore(maxDate);
+					return actualDate.isSame(maxDate) || actualDate.isBefore(maxDate);
 				}
 				return false;
 			},
@@ -322,10 +322,10 @@ export function getRule<FormType, InputType extends GenericInput = GenericInput>
 				}
 				const reg = new RegExp(/^[0-9]{4}-[0-9]{2}-[0-9]{2}\s[0-9]{2}:[0-9]{2}$/);
 				if (reg.test(value)) {
-					const minDate = moment(rule.replace('minDatetime:', ''), 'YYYY-MM-DD HH:mm');
-					const actualDate = moment(value, 'YYYY-MM-DD HH:mm');
+					const minDate = dayjs(rule.replace('minDatetime:', ''), 'YYYY-MM-DD HH:mm');
+					const actualDate = dayjs(value, 'YYYY-MM-DD HH:mm');
 
-					return actualDate.isSameOrAfter(minDate);
+					return actualDate.isSame(minDate) || actualDate.isAfter(minDate);
 				}
 				return false;
 			},
@@ -341,10 +341,10 @@ export function getRule<FormType, InputType extends GenericInput = GenericInput>
 				}
 				const reg = new RegExp(/^[0-9]{4}-[0-9]{2}-[0-9]{2}\s[0-9]{2}:[0-9]{2}$/);
 				if (reg.test(value)) {
-					const maxDate = moment(rule.replace('maxDatetime:', ''), 'YYYY-MM-DD HH:mm');
-					const actualDate = moment(value, 'YYYY-MM-DD HH:mm');
+					const maxDate = dayjs(rule.replace('maxDatetime:', ''), 'YYYY-MM-DD HH:mm');
+					const actualDate = dayjs(value, 'YYYY-MM-DD HH:mm');
 
-					return actualDate.isSameOrBefore(maxDate);
+					return actualDate.isSame(maxDate) || actualDate.isBefore(maxDate);
 				}
 				return false;
 			},
@@ -360,10 +360,10 @@ export function getRule<FormType, InputType extends GenericInput = GenericInput>
 				}
 				const reg = new RegExp(/^[0-9]{4}-[0-9]{2}$/);
 				if (reg.test(value)) {
-					const minDate = moment(rule.replace('minMonth:', '') + '-01', 'YYYY-MM-DD');
-					const actualDate = moment(value, 'YYYY-MM-DD');
+					const minDate = dayjs(rule.replace('minMonth:', '') + '-01', 'YYYY-MM-DD');
+					const actualDate = dayjs(value, 'YYYY-MM-DD');
 
-					return actualDate.isSameOrAfter(minDate);
+					return actualDate.isSame(minDate) || actualDate.isAfter(minDate);
 				}
 				return false;
 			},
@@ -379,10 +379,10 @@ export function getRule<FormType, InputType extends GenericInput = GenericInput>
 				}
 				const reg = new RegExp(/^[0-9]{4}-[0-9]{2}$/);
 				if (reg.test(value)) {
-					const maxDate = moment(rule.replace('maxMonth:', '') + '-31', 'YYYY-MM-DD');
-					const actualDate = moment(value, 'YYYY-MM-DD');
+					const maxDate = dayjs(rule.replace('maxMonth:', '') + '-31', 'YYYY-MM-DD');
+					const actualDate = dayjs(value, 'YYYY-MM-DD');
 
-					return actualDate.isSameOrBefore(maxDate);
+					return actualDate.isSame(maxDate) || actualDate.isBefore(maxDate);
 				}
 				return false;
 			},
